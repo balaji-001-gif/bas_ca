@@ -6,6 +6,10 @@ app_email = "dev@antigravity.in"
 app_license = "MIT"
 app_version = "1.0.0"
 
+# Required Apps
+# -------------
+required_apps = ["erpnext"]
+
 # Includes in <head>
 # ------------------
 
