@@ -6,7 +6,7 @@ frappe.ui.form.on("Compliance Task", {
         if (!frm.is_new() && frm.doc.status !== "Filed") {
             frm.add_custom_button(__("Send WhatsApp Reminder"), function () {
                 frappe.call({
-                    method: "bas_ca.api.send_whatsapp_reminder",
+                    method: "bas_ca.bas_ca.api.send_whatsapp_reminder",
                     args: {
                         compliance_task: frm.doc.name,
                     },

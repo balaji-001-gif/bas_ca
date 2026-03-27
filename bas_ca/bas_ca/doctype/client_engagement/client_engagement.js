@@ -19,7 +19,7 @@ frappe.ui.form.on("Client Engagement", {
                     primary_action_label: __("Create"),
                     primary_action(values) {
                         frappe.call({
-                            method: "bas_ca.api.create_annual_compliance_package",
+                            method: "bas_ca.bas_ca.api.create_annual_compliance_package",
                             args: {
                                 client_engagement: frm.doc.name,
                                 financial_year: values.financial_year,

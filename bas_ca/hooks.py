@@ -123,10 +123,10 @@ required_apps = ["erpnext"]
 
 doc_events = {
     "Compliance Task": {
-        "validate": "bas_ca.doctype.compliance_task.compliance_task.calculate_penalty_risk",
+        "validate": "bas_ca.bas_ca.doctype.compliance_task.compliance_task.calculate_penalty_risk",
     },
     "GST Return Tracker": {
-        "validate": "bas_ca.doctype.gst_return_tracker.gst_return_tracker.calculate_itc_difference",
+        "validate": "bas_ca.bas_ca.doctype.gst_return_tracker.gst_return_tracker.calculate_itc_difference",
     },
 }
 
@@ -135,8 +135,8 @@ doc_events = {
 
 scheduler_events = {
     "daily": [
-        "bas_ca.api.check_ccfs_2026_window",
-        "bas_ca.api.send_compliance_reminders",
+        "bas_ca.bas_ca.api.check_ccfs_2026_window",
+        "bas_ca.bas_ca.api.send_compliance_reminders",
     ],
 }
 
