@@ -1,0 +1,113 @@
+{% set tasks = frappe.get_all("Compliance Task", filters={"client_engagement": doc.name}, fields=["task_name", "form_number", "due_date", "status", "filing_date", "penalty_risk"], order_by="due_date asc") %}
+{% set gst = frappe.get_all("GST Return Tracker", filters={"client_engagement": doc.name}, fields=["return_type", "filing_period", "due_date", "status"], order_by="due_date desc", limit=5) %}
+{% set roc = frappe.get_all("ROC Filing", filters={"client_engagement": doc.name}, fields=["form_type", "due_date", "status"], order_by="due_date desc", limit=5) %}
+
+<style>
+    .print-format { font-family: 'Arial', sans-serif; font-size: 11px; }
+    .header { text-align: center; margin-bottom: 20px; border-bottom: 2px solid #2c5f8a; padding-bottom: 15px; }
+    .header h1 { font-size: 18px; color: #2c5f8a; }
+    .section { margin: 20px 0; }
+    .section h3 { font-size: 13px; color: #2c5f8a; border-bottom: 1px solid #ddd; padding-bottom: 5px; }
+    .status-table { width: 100%; border-collapse: collapse; font-size: 10px; }
+    .status-table th { background: #2c5f8a; color: white; padding: 6px 8px; text-align: left; }
+    .status-table td { padding: 5px 8px; border-bottom: 1px solid #eee; }
+    .status-filed { color: #28a745; font-weight: bold; }
+    .status-pending { color: #ffc107; font-weight: bold; }
+    .status-overdue { color: #dc3545; font-weight: bold; }
+    .summary-box { display: flex; justify-content: space-between; margin: 15px 0; }
+    .summary-item { text-align: center; padding: 10px; border: 1px solid #ddd; border-radius: 5px; width: 30%; }
+    .summary-item .number { font-size: 24px; font-weight: bold; color: #2c5f8a; }
+    .footer { margin-top: 30px; font-size: 9px; color: #999; text-align: center; }
+</style>
+
+<div class="print-format">
+    <div class="header">
+        <h1>COMPLIANCE STATUS REPORT</h1>
+        <p><strong>{{ doc.client }}</strong></p>
+        {% if doc.pan %}<p>PAN: {{ doc.pan }} | {% endif %}
+        {% if doc.gstin %}GSTIN: {{ doc.gstin }} | {% endif %}
+        {% if doc.cin %}CIN: {{ doc.cin }}{% endif %}</p>
+        <p>Report Date: {{ frappe.utils.today() }}</p>
+    </div>
+
+    <div class="summary-box">
+        <div class="summary-item">
+            <div class="number">{{ tasks | selectattr("status", "eq", "Filed") | list | length }}</div>
+            <div>Filed</div>
+        </div>
+        <div class="summary-item">
+            <div class="number">{{ tasks | selectattr("status", "eq", "Pending") | list | length }}</div>
+            <div>Pending</div>
+        </div>
+        <div class="summary-item">
+            <div class="number">{{ tasks | selectattr("status", "eq", "Overdue") | list | length }}</div>
+            <div>Overdue</div>
+        </div>
+    </div>
+
+    {% if tasks %}
+    <div class="section">
+        <h3>Compliance Tasks</h3>
+        <table class="status-table">
+            <thead>
+                <tr><th>Task</th><th>Form</th><th>Due Date</th><th>Status</th><th>Filed On</th></tr>
+            </thead>
+            <tbody>
+                {% for t in tasks %}
+                <tr>
+                    <td>{{ t.task_name }}</td>
+                    <td>{{ t.form_number or '-' }}</td>
+                    <td>{{ t.due_date }}</td>
+                    <td class="{% if t.status == 'Filed' %}status-filed{% elif t.status == 'Overdue' %}status-overdue{% else %}status-pending{% endif %}">
+                        {{ t.status }}
+                    </td>
+                    <td>{{ t.filing_date or '-' }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% endif %}
+
+    {% if gst %}
+    <div class="section">
+        <h3>Recent GST Returns</h3>
+        <table class="status-table">
+            <thead><tr><th>Return</th><th>Period</th><th>Due</th><th>Status</th></tr></thead>
+            <tbody>
+                {% for g in gst %}
+                <tr>
+                    <td>{{ g.return_type }}</td>
+                    <td>{{ g.filing_period }}</td>
+                    <td>{{ g.due_date }}</td>
+                    <td class="{% if g.status == 'Filed' %}status-filed{% else %}status-pending{% endif %}">{{ g.status }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% endif %}
+
+    {% if roc %}
+    <div class="section">
+        <h3>Recent ROC Filings</h3>
+        <table class="status-table">
+            <thead><tr><th>Form</th><th>Due</th><th>Status</th></tr></thead>
+            <tbody>
+                {% for r in roc %}
+                <tr>
+                    <td>{{ r.form_type }}</td>
+                    <td>{{ r.due_date }}</td>
+                    <td class="{% if r.status in ['Filed', 'SRN Generated', 'Approved'] %}status-filed{% else %}status-pending{% endif %}">{{ r.status }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% endif %}
+
+    <div class="footer">
+        <p>This is a system-generated report from Bas CA Practice Management.</p>
+        <p>For any queries, please contact your engagement manager.</p>
+    </div>
+</div>

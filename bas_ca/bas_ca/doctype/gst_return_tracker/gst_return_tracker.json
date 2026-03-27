@@ -1,0 +1,239 @@
+{
+ "actions": [],
+ "autoname": "GST-.YYYY.-.#####",
+ "creation": "2026-03-27 10:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "details_section",
+  "client_engagement",
+  "return_type",
+  "filing_period",
+  "financial_year",
+  "column_break_1",
+  "due_date",
+  "filing_date",
+  "status",
+  "filed_by",
+  "tax_section",
+  "total_tax_liability",
+  "itc_claimed",
+  "itc_as_per_2b",
+  "column_break_2",
+  "itc_as_per_books",
+  "itc_difference",
+  "rcm_liability",
+  "flags_section",
+  "e_invoice_enabled",
+  "lut_applicable",
+  "column_break_3",
+  "acknowledgement_no",
+  "attachment"
+ ],
+ "fields": [
+  {
+   "fieldname": "details_section",
+   "fieldtype": "Section Break",
+   "label": "Return Details"
+  },
+  {
+   "fieldname": "client_engagement",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Client Engagement",
+   "options": "Client Engagement"
+  },
+  {
+   "fieldname": "return_type",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Return Type",
+   "options": "GSTR-1\nGSTR-3B\nGSTR-9\nGSTR-9C\nGSTR-4\nCMP-08"
+  },
+  {
+   "fieldname": "filing_period",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Filing Period",
+   "description": "e.g. Apr 2026"
+  },
+  {
+   "fieldname": "financial_year",
+   "fieldtype": "Data",
+   "label": "Financial Year",
+   "description": "e.g. 2025-26"
+  },
+  {
+   "fieldname": "column_break_1",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "due_date",
+   "fieldtype": "Date",
+   "in_list_view": 1,
+   "label": "Due Date"
+  },
+  {
+   "fieldname": "filing_date",
+   "fieldtype": "Date",
+   "label": "Filing Date"
+  },
+  {
+   "default": "Pending",
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Status",
+   "options": "Pending\nFiled\nLate Filed\nNil Return"
+  },
+  {
+   "fieldname": "filed_by",
+   "fieldtype": "Link",
+   "label": "Filed By",
+   "options": "User"
+  },
+  {
+   "fieldname": "tax_section",
+   "fieldtype": "Section Break",
+   "label": "Tax & ITC Details"
+  },
+  {
+   "fieldname": "total_tax_liability",
+   "fieldtype": "Currency",
+   "label": "Total Tax Liability",
+   "options": "INR"
+  },
+  {
+   "fieldname": "itc_claimed",
+   "fieldtype": "Currency",
+   "label": "ITC Claimed",
+   "options": "INR"
+  },
+  {
+   "fieldname": "itc_as_per_2b",
+   "fieldtype": "Currency",
+   "label": "ITC as per 2B",
+   "options": "INR"
+  },
+  {
+   "fieldname": "column_break_2",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "itc_as_per_books",
+   "fieldtype": "Currency",
+   "label": "ITC as per Books",
+   "options": "INR"
+  },
+  {
+   "fieldname": "itc_difference",
+   "fieldtype": "Currency",
+   "label": "ITC Difference",
+   "options": "INR",
+   "read_only": 1,
+   "description": "ITC as per 2B - ITC Claimed (auto-calculated)"
+  },
+  {
+   "fieldname": "rcm_liability",
+   "fieldtype": "Currency",
+   "label": "RCM Liability",
+   "options": "INR"
+  },
+  {
+   "fieldname": "flags_section",
+   "fieldtype": "Section Break",
+   "label": "Flags & Attachments"
+  },
+  {
+   "default": 0,
+   "fieldname": "e_invoice_enabled",
+   "fieldtype": "Check",
+   "label": "E-Invoice Enabled"
+  },
+  {
+   "default": 0,
+   "fieldname": "lut_applicable",
+   "fieldtype": "Check",
+   "label": "LUT Applicable"
+  },
+  {
+   "fieldname": "column_break_3",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "acknowledgement_no",
+   "fieldtype": "Data",
+   "label": "Acknowledgement No"
+  },
+  {
+   "fieldname": "attachment",
+   "fieldtype": "Attach",
+   "label": "Attachment"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2026-03-27 10:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Bas Ca",
+ "name": "GST Return Tracker",
+ "naming_rule": "Expression",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "CA Partner",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "CA Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "email": 1,
+   "print": 1,
+   "read": 1,
+   "role": "CA Staff",
+   "write": 1
+  },
+  {
+   "print": 1,
+   "read": 1,
+   "role": "CA Client"
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "due_date",
+ "sort_order": "ASC",
+ "states": [],
+ "track_changes": 1
+}

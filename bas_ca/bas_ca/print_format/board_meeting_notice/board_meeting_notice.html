@@ -1,0 +1,60 @@
+{% set eng = frappe.get_doc("Client Engagement", doc.client_engagement) %}
+<style>
+    .print-format { font-family: 'Georgia', serif; }
+    .header { text-align: center; margin-bottom: 30px; }
+    .header h1 { font-size: 18px; margin-bottom: 5px; text-transform: uppercase; }
+    .header h2 { font-size: 14px; font-weight: normal; }
+    .divider { border-top: 2px solid #333; margin: 20px 0; }
+    .content { font-size: 12px; line-height: 1.8; }
+    .signature-block { margin-top: 60px; }
+    .agenda-list { margin-left: 20px; }
+    .agenda-list li { margin-bottom: 10px; }
+</style>
+
+<div class="print-format">
+    <div class="header">
+        <h1>NOTICE OF {{ doc.meeting_type | upper }}</h1>
+        <h2>{{ eng.client }}</h2>
+        {% if eng.cin %}<p>CIN: {{ eng.cin }}</p>{% endif %}
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="content">
+        <p>Notice is hereby given that the <strong>{{ doc.meeting_number or '' }}</strong>
+        {{ doc.meeting_type }} of the Board of Directors / Members of
+        <strong>{{ eng.client }}</strong> will be held as per the following details:</p>
+
+        <table style="width: 100%; margin: 20px 0;">
+            <tr><td style="width: 150px;"><strong>Date:</strong></td><td>{{ doc.meeting_date }}</td></tr>
+            <tr><td><strong>Time:</strong></td><td>{{ doc.meeting_time or 'As communicated' }}</td></tr>
+            <tr><td><strong>Venue:</strong></td><td>{{ doc.venue or 'Registered Office of the Company' }}</td></tr>
+            {% if doc.video_conferencing %}
+            <tr><td><strong>VC Platform:</strong></td><td>{{ doc.vc_platform or 'Video Conferencing' }}</td></tr>
+            {% endif %}
+        </table>
+
+        <p>to transact the following business:</p>
+
+        <h3>AGENDA</h3>
+        {% if doc.agenda %}
+            {{ doc.agenda }}
+        {% else %}
+            <ol class="agenda-list">
+                <li>To confirm the minutes of the previous {{ doc.meeting_type }}.</li>
+                <li>To take note of the matters arising from the previous minutes.</li>
+                <li>[Additional agenda items to be added]</li>
+            </ol>
+        {% endif %}
+
+        <div class="signature-block">
+            <p>By Order of the Board</p>
+            <p>For <strong>{{ eng.client }}</strong></p>
+            <br><br>
+            <p>_______________________________</p>
+            <p>{{ eng.authorised_signatory or 'Company Secretary / Authorised Signatory' }}</p>
+            <p>Date: {{ frappe.utils.today() }}</p>
+            <p>Place: {{ doc.venue or '' }}</p>
+        </div>
+    </div>
+</div>

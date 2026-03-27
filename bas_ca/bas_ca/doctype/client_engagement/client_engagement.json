@@ -1,0 +1,253 @@
+{
+ "actions": [],
+ "autoname": "CA-ENG-.YYYY.-.#####",
+ "creation": "2026-03-27 10:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "client_details_section",
+  "client",
+  "pan",
+  "gstin",
+  "cin",
+  "din",
+  "column_break_1",
+  "roc_status",
+  "engagement_type",
+  "company_type",
+  "engagement_status",
+  "portal_access",
+  "fee_section",
+  "retainer_fee",
+  "column_break_2",
+  "fee_structure_notes",
+  "signatory_section",
+  "authorised_signatory",
+  "filing_section",
+  "last_gst_filing",
+  "last_roc_filing",
+  "column_break_3",
+  "last_itr_filing"
+ ],
+ "fields": [
+  {
+   "fieldname": "client_details_section",
+   "fieldtype": "Section Break",
+   "label": "Client Details"
+  },
+  {
+   "fieldname": "client",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Client",
+   "options": "Customer",
+   "reqd": 1
+  },
+  {
+   "fieldname": "pan",
+   "fieldtype": "Data",
+   "label": "PAN"
+  },
+  {
+   "fieldname": "gstin",
+   "fieldtype": "Data",
+   "label": "GSTIN"
+  },
+  {
+   "fieldname": "cin",
+   "fieldtype": "Data",
+   "label": "CIN"
+  },
+  {
+   "fieldname": "din",
+   "fieldtype": "Data",
+   "label": "DIN"
+  },
+  {
+   "fieldname": "column_break_1",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "Active",
+   "fieldname": "roc_status",
+   "fieldtype": "Select",
+   "label": "ROC Status",
+   "options": "Active\nStruck Off\nUnder Liquidation"
+  },
+  {
+   "default": "CA Only",
+   "fieldname": "engagement_type",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Engagement Type",
+   "options": "CA Only\nCS Only\nBoth"
+  },
+  {
+   "fieldname": "company_type",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Company Type",
+   "options": "Private Limited\nOPC\nLLP\nPartnership\nProprietorship\nStartup"
+  },
+  {
+   "default": "Active",
+   "fieldname": "engagement_status",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Engagement Status",
+   "options": "Active\nInactive\nOn Hold"
+  },
+  {
+   "default": 0,
+   "fieldname": "portal_access",
+   "fieldtype": "Check",
+   "label": "Portal Access"
+  },
+  {
+   "fieldname": "fee_section",
+   "fieldtype": "Section Break",
+   "label": "Fee Details"
+  },
+  {
+   "fieldname": "retainer_fee",
+   "fieldtype": "Currency",
+   "label": "Retainer Fee",
+   "options": "INR"
+  },
+  {
+   "fieldname": "column_break_2",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "fee_structure_notes",
+   "fieldtype": "Text Editor",
+   "label": "Fee Structure Notes"
+  },
+  {
+   "fieldname": "signatory_section",
+   "fieldtype": "Section Break",
+   "label": "Authorised Signatory"
+  },
+  {
+   "fieldname": "authorised_signatory",
+   "fieldtype": "Data",
+   "label": "Authorised Signatory"
+  },
+  {
+   "fieldname": "filing_section",
+   "fieldtype": "Section Break",
+   "label": "Last Filing Dates"
+  },
+  {
+   "fieldname": "last_gst_filing",
+   "fieldtype": "Date",
+   "label": "Last GST Filing"
+  },
+  {
+   "fieldname": "last_roc_filing",
+   "fieldtype": "Date",
+   "label": "Last ROC Filing"
+  },
+  {
+   "fieldname": "column_break_3",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "last_itr_filing",
+   "fieldtype": "Date",
+   "label": "Last ITR Filing"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [
+  {
+   "link_doctype": "Compliance Task",
+   "link_fieldname": "client_engagement"
+  },
+  {
+   "link_doctype": "GST Return Tracker",
+   "link_fieldname": "client_engagement"
+  },
+  {
+   "link_doctype": "ROC Filing",
+   "link_fieldname": "client_engagement"
+  },
+  {
+   "link_doctype": "Board Meeting",
+   "link_fieldname": "client_engagement"
+  },
+  {
+   "link_doctype": "Secretarial Audit",
+   "link_fieldname": "client_engagement"
+  },
+  {
+   "link_doctype": "Statutory Register",
+   "link_fieldname": "client_engagement"
+  }
+ ],
+ "modified": "2026-03-27 10:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Bas Ca",
+ "name": "Client Engagement",
+ "naming_rule": "Expression",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "CA Partner",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "CA Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "email": 1,
+   "print": 1,
+   "read": 1,
+   "role": "CA Staff",
+   "write": 1
+  },
+  {
+   "print": 1,
+   "read": 1,
+   "role": "CA Client"
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "title_field": "client",
+ "track_changes": 1
+}

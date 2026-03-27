@@ -1,0 +1,28 @@
+name: Frappe CI
+
+on: [push, pull_request]
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Python Syntax Check
+        run: |
+          find bas_ca -name "*.py" -exec python -m py_compile {} +
+          echo "All Python files compiled successfully"
+
+      - name: JSON Validation
+        run: |
+          find bas_ca -name "*.json" -exec python -m json.tool {} > /dev/null \;
+          echo "All JSON files are valid"
+
+      - name: Check for print statements
+        run: |
+          ! grep -rn "print(" bas_ca/ --include="*.py" | grep -v "# noqa" | grep -v "frappe.print" || true

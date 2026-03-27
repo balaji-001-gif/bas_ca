@@ -1,0 +1,64 @@
+{% set eng = frappe.get_doc("Client Engagement", doc.client_engagement) %}
+<style>
+    .print-format { font-family: 'Georgia', serif; }
+    .header { text-align: center; margin-bottom: 30px; }
+    .header h1 { font-size: 18px; text-transform: uppercase; }
+    .divider { border-top: 2px solid #333; margin: 20px 0; }
+    .content { font-size: 12px; line-height: 1.8; }
+    .attendance-table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+    .attendance-table th, .attendance-table td { border: 1px solid #666; padding: 8px; text-align: left; }
+    .attendance-table th { background: #f5f5f5; }
+    .resolution { margin: 20px 0; padding: 10px; border-left: 3px solid #333; }
+    .signature-block { margin-top: 60px; }
+</style>
+
+<div class="print-format">
+    <div class="header">
+        <h1>MINUTES OF {{ doc.meeting_type | upper }}</h1>
+        <h2>{{ eng.client }}</h2>
+        {% if eng.cin %}<p>CIN: {{ eng.cin }}</p>{% endif %}
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="content">
+        <p>Minutes of the <strong>{{ doc.meeting_number or '' }}</strong>
+        {{ doc.meeting_type }} of <strong>{{ eng.client }}</strong>
+        held on <strong>{{ doc.meeting_date }}</strong>
+        at <strong>{{ doc.meeting_time or '' }}</strong>
+        at <strong>{{ doc.venue or 'the Registered Office' }}</strong>
+        {% if doc.video_conferencing %}
+        through Video Conferencing ({{ doc.vc_platform or 'VC' }})
+        {% endif %}.</p>
+
+        <h3>ATTENDANCE</h3>
+        <p>Quorum {% if doc.quorum_met %}was{% else %}was not{% endif %} present.</p>
+
+        {% if doc.minutes %}
+            {{ doc.minutes }}
+        {% endif %}
+
+        {% if doc.resolutions_passed %}
+            <h3>RESOLUTIONS PASSED</h3>
+            {{ doc.resolutions_passed }}
+        {% endif %}
+
+        <p>There being no other business, the meeting concluded with a vote of thanks to the Chair.</p>
+
+        <div class="signature-block">
+            <p>Certified True Copy</p>
+            <br><br>
+            <p>_______________________________</p>
+            <p>Chairman</p>
+            <p>Date: </p>
+            <p>Place: {{ doc.venue or '' }}</p>
+        </div>
+
+        {% if doc.ss1_ss2_compliant %}
+        <p style="font-size: 10px; margin-top: 40px; color: #666;">
+            These minutes comply with Secretarial Standard 1 (SS-1) on Meetings of the Board of Directors
+            and Secretarial Standard 2 (SS-2) on General Meetings, issued by the ICSI.
+        </p>
+        {% endif %}
+    </div>
+</div>

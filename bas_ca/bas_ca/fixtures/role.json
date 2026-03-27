@@ -1,0 +1,32 @@
+[
+  {
+    "doctype": "Role",
+    "role_name": "CA Partner",
+    "desk_access": 1,
+    "is_custom": 1
+  },
+  {
+    "doctype": "Role",
+    "role_name": "CA Manager",
+    "desk_access": 1,
+    "is_custom": 1
+  },
+  {
+    "doctype": "Role",
+    "role_name": "CA Staff",
+    "desk_access": 1,
+    "is_custom": 1
+  },
+  {
+    "doctype": "Role",
+    "role_name": "CS Executive",
+    "desk_access": 1,
+    "is_custom": 1
+  },
+  {
+    "doctype": "Role",
+    "role_name": "CA Client",
+    "desk_access": 0,
+    "is_custom": 1
+  }
+]

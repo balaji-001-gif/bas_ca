@@ -1,0 +1,230 @@
+{
+ "actions": [],
+ "autoname": "ROC-.YYYY.-.#####",
+ "creation": "2026-03-27 10:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "details_section",
+  "client_engagement",
+  "form_type",
+  "filing_type",
+  "financial_year",
+  "event_description",
+  "column_break_1",
+  "due_date",
+  "filing_date",
+  "status",
+  "srn_number",
+  "filed_by",
+  "fees_section",
+  "fees_paid",
+  "additional_fees",
+  "column_break_2",
+  "ccfs_2026_applicable",
+  "mca_v3_package_ready",
+  "documents_section",
+  "documents_attached",
+  "remarks_section",
+  "remarks"
+ ],
+ "fields": [
+  {
+   "fieldname": "details_section",
+   "fieldtype": "Section Break",
+   "label": "Filing Details"
+  },
+  {
+   "fieldname": "client_engagement",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Client Engagement",
+   "options": "Client Engagement"
+  },
+  {
+   "fieldname": "form_type",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Form Type",
+   "options": "AOC-4\nMGT-7\nADT-1\nDIR-12\nINC-22\nSH-7\nPAS-3\nMGT-14\nDIR-3 KYC\nINC-20A\nCHG-1\nCHG-4\nLLP-11\nLLP-8\nOther"
+  },
+  {
+   "fieldname": "filing_type",
+   "fieldtype": "Select",
+   "in_standard_filter": 1,
+   "label": "Filing Type",
+   "options": "Annual\nEvent-Based"
+  },
+  {
+   "fieldname": "financial_year",
+   "fieldtype": "Data",
+   "label": "Financial Year"
+  },
+  {
+   "fieldname": "event_description",
+   "fieldtype": "Data",
+   "label": "Event Description",
+   "depends_on": "eval:doc.filing_type=='Event-Based'"
+  },
+  {
+   "fieldname": "column_break_1",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "due_date",
+   "fieldtype": "Date",
+   "in_list_view": 1,
+   "label": "Due Date"
+  },
+  {
+   "fieldname": "filing_date",
+   "fieldtype": "Date",
+   "label": "Filing Date"
+  },
+  {
+   "default": "Pending",
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Status",
+   "options": "Pending\nDrafted\nUnder Review\nFiled\nSRN Generated\nApproved"
+  },
+  {
+   "fieldname": "srn_number",
+   "fieldtype": "Data",
+   "label": "SRN Number"
+  },
+  {
+   "fieldname": "filed_by",
+   "fieldtype": "Link",
+   "label": "Filed By",
+   "options": "User"
+  },
+  {
+   "fieldname": "fees_section",
+   "fieldtype": "Section Break",
+   "label": "Fees & Flags"
+  },
+  {
+   "fieldname": "fees_paid",
+   "fieldtype": "Currency",
+   "label": "Fees Paid",
+   "options": "INR"
+  },
+  {
+   "fieldname": "additional_fees",
+   "fieldtype": "Currency",
+   "label": "Additional Fees",
+   "options": "INR"
+  },
+  {
+   "fieldname": "column_break_2",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": 0,
+   "fieldname": "ccfs_2026_applicable",
+   "fieldtype": "Check",
+   "label": "CCFS-2026 Applicable"
+  },
+  {
+   "default": 0,
+   "fieldname": "mca_v3_package_ready",
+   "fieldtype": "Check",
+   "label": "MCA V3 Package Ready"
+  },
+  {
+   "fieldname": "documents_section",
+   "fieldtype": "Section Break",
+   "label": "Documents"
+  },
+  {
+   "fieldname": "documents_attached",
+   "fieldtype": "Attach",
+   "label": "Documents Attached"
+  },
+  {
+   "fieldname": "remarks_section",
+   "fieldtype": "Section Break",
+   "label": "Remarks"
+  },
+  {
+   "fieldname": "remarks",
+   "fieldtype": "Text Editor",
+   "label": "Remarks"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2026-03-27 10:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Bas Ca",
+ "name": "ROC Filing",
+ "naming_rule": "Expression",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "CA Partner",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "CA Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "email": 1,
+   "print": 1,
+   "read": 1,
+   "role": "CA Staff",
+   "write": 1
+  },
+  {
+   "create": 1,
+   "email": 1,
+   "print": 1,
+   "read": 1,
+   "role": "CS Executive",
+   "write": 1
+  },
+  {
+   "print": 1,
+   "read": 1,
+   "role": "CA Client"
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "due_date",
+ "sort_order": "ASC",
+ "states": [],
+ "track_changes": 1
+}

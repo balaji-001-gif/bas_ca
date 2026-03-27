@@ -1,0 +1,117 @@
+<style>
+    .print-format { font-family: 'Georgia', serif; }
+    .header { text-align: center; margin-bottom: 30px; border-bottom: 3px double #333; padding-bottom: 20px; }
+    .header h1 { font-size: 22px; margin-bottom: 5px; }
+    .header h2 { font-size: 14px; font-weight: normal; color: #666; }
+    .content { font-size: 12px; line-height: 1.8; }
+    .section { margin: 25px 0; }
+    .section h3 { font-size: 13px; text-transform: uppercase; border-bottom: 1px solid #ccc; padding-bottom: 5px; }
+    .detail-table { width: 100%; margin: 15px 0; }
+    .detail-table td { padding: 5px 10px; vertical-align: top; }
+    .detail-table td:first-child { width: 200px; font-weight: bold; }
+    .clause { margin: 15px 0; padding: 10px 15px; background: #f9f9f9; border-left: 3px solid #333; font-size: 11px; }
+    .signature-block { margin-top: 80px; }
+    .sig-row { display: flex; justify-content: space-between; margin-top: 50px; }
+    .sig-col { text-align: center; width: 45%; }
+</style>
+
+<div class="print-format">
+    <div class="header">
+        <h1>ENGAGEMENT LETTER</h1>
+        <h2>Professional Services Agreement</h2>
+    </div>
+
+    <div class="content">
+        <p>Date: {{ frappe.utils.today() }}</p>
+        <p>Ref: {{ doc.name }}</p>
+
+        <p><strong>To,</strong></p>
+        <p>{{ doc.client }}<br>
+        {% if doc.authorised_signatory %}Attn: {{ doc.authorised_signatory }}{% endif %}</p>
+
+        <p>Dear Sir/Madam,</p>
+
+        <p>We are pleased to confirm our appointment as your professional advisors.
+        This letter sets out the terms of our engagement.</p>
+
+        <div class="section">
+            <h3>1. Scope of Services</h3>
+            <table class="detail-table">
+                <tr><td>Engagement Type:</td><td>{{ doc.engagement_type }}</td></tr>
+                <tr><td>Company Type:</td><td>{{ doc.company_type }}</td></tr>
+                {% if doc.pan %}<tr><td>PAN:</td><td>{{ doc.pan }}</td></tr>{% endif %}
+                {% if doc.gstin %}<tr><td>GSTIN:</td><td>{{ doc.gstin }}</td></tr>{% endif %}
+                {% if doc.cin %}<tr><td>CIN:</td><td>{{ doc.cin }}</td></tr>{% endif %}
+            </table>
+
+            <p>Our services shall include, but not be limited to:</p>
+            <ul>
+                {% if doc.engagement_type in ['CA Only', 'Both'] %}
+                <li>Preparation and filing of Income Tax Returns</li>
+                <li>GST compliance (GSTR-1, GSTR-3B, GSTR-9)</li>
+                <li>TDS/TCS compliance and returns</li>
+                <li>Tax audit and statutory audit support</li>
+                <li>Advance tax computation and payment advisory</li>
+                {% endif %}
+                {% if doc.engagement_type in ['CS Only', 'Both'] %}
+                <li>ROC compliance and annual filings</li>
+                <li>Board meeting and general meeting support</li>
+                <li>Secretarial audit (Form MR-3)</li>
+                <li>Maintenance of statutory registers</li>
+                <li>Corporate governance advisory</li>
+                {% endif %}
+            </ul>
+        </div>
+
+        <div class="section">
+            <h3>2. Fee Structure</h3>
+            <table class="detail-table">
+                <tr><td>Retainer Fee:</td><td>₹{{ frappe.utils.fmt_money(doc.retainer_fee, currency='INR') if doc.retainer_fee else 'As agreed' }}</td></tr>
+            </table>
+            {% if doc.fee_structure_notes %}
+            <p>{{ doc.fee_structure_notes }}</p>
+            {% endif %}
+        </div>
+
+        <div class="section">
+            <h3>3. Confidentiality</h3>
+            <div class="clause">
+                We shall maintain strict confidentiality of all information, documents, and data
+                shared with us in the course of this engagement. This obligation shall survive
+                the termination of this engagement.
+            </div>
+        </div>
+
+        <div class="section">
+            <h3>4. Limitation of Liability</h3>
+            <div class="clause">
+                Our liability in connection with this engagement shall be limited to the fees
+                received for the specific services giving rise to the liability. We shall not
+                be liable for any consequential, indirect, or special damages.
+            </div>
+        </div>
+
+        <div class="section">
+            <h3>5. Termination</h3>
+            <p>Either party may terminate this engagement by providing 30 days written notice.
+            All fees for services rendered up to the date of termination shall be payable.</p>
+        </div>
+
+        <p>Please sign and return a copy of this letter to confirm your agreement.</p>
+
+        <div class="sig-row">
+            <div class="sig-col">
+                <p>_______________________________</p>
+                <p><strong>For the Firm</strong></p>
+                <p>Authorised Partner</p>
+                <p>Date: </p>
+            </div>
+            <div class="sig-col">
+                <p>_______________________________</p>
+                <p><strong>For {{ doc.client }}</strong></p>
+                <p>{{ doc.authorised_signatory or 'Authorised Signatory' }}</p>
+                <p>Date: </p>
+            </div>
+        </div>
+    </div>
+</div>

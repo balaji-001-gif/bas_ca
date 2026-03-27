@@ -1,0 +1,18 @@
+include MANIFEST.in
+include requirements.txt
+include *.json
+include *.md
+include *.py
+include *.txt
+recursive-include bas_ca *.css
+recursive-include bas_ca *.csv
+recursive-include bas_ca *.html
+recursive-include bas_ca *.ico
+recursive-include bas_ca *.js
+recursive-include bas_ca *.json
+recursive-include bas_ca *.md
+recursive-include bas_ca *.png
+recursive-include bas_ca *.py
+recursive-include bas_ca *.svg
+recursive-include bas_ca *.txt
+recursive-exclude bas_ca *.pyc

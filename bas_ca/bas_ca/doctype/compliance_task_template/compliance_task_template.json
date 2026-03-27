@@ -1,0 +1,164 @@
+{
+ "actions": [],
+ "autoname": "field:task_name",
+ "creation": "2026-03-27 10:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "task_name",
+  "compliance_type",
+  "applicable_company_type",
+  "form_number",
+  "column_break_1",
+  "recurrence",
+  "due_date_formula",
+  "statutory_due_date",
+  "default_assignee_role",
+  "details_section",
+  "penalty_per_day",
+  "reminder_days_before",
+  "column_break_2",
+  "description"
+ ],
+ "fields": [
+  {
+   "fieldname": "task_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Task Name",
+   "reqd": 1,
+   "unique": 1
+  },
+  {
+   "fieldname": "compliance_type",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Compliance Type",
+   "options": "GST\nIncome Tax\nTDS\nROC\nSecretarial\nAudit\nOther"
+  },
+  {
+   "fieldname": "applicable_company_type",
+   "fieldtype": "Small Text",
+   "in_standard_filter": 1,
+   "label": "Applicable Company Type",
+   "description": "Comma-separated: Private Limited, OPC, LLP, Partnership, Proprietorship, Startup"
+  },
+  {
+   "fieldname": "due_date_formula",
+   "fieldtype": "Data",
+   "label": "Due Date Formula",
+   "description": "e.g. Last day of month + 20 days"
+  },
+  {
+   "fieldname": "statutory_due_date",
+   "fieldtype": "Date",
+   "label": "Statutory Due Date"
+  },
+  {
+   "fieldname": "form_number",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Form Number",
+   "description": "e.g. GSTR-1, MGT-7, AOC-4"
+  },
+  {
+   "fieldname": "recurrence",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Recurrence",
+   "options": "Monthly\nQuarterly\nHalf-Yearly\nAnnual\nEvent-Based"
+  },
+  {
+   "fieldname": "default_assignee_role",
+   "fieldtype": "Link",
+   "label": "Default Assignee Role",
+   "options": "Role"
+  },
+  {
+   "fieldname": "penalty_per_day",
+   "fieldtype": "Currency",
+   "label": "Penalty Per Day",
+   "options": "INR"
+  },
+  {
+   "fieldname": "reminder_days_before",
+   "fieldtype": "Int",
+   "label": "Reminder Days Before Due Date"
+  },
+  {
+   "fieldname": "description",
+   "fieldtype": "Text Editor",
+   "label": "Description"
+  },
+  {
+   "fieldname": "column_break_1",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "details_section",
+   "fieldtype": "Section Break",
+   "label": "Penalty & Reminder"
+  },
+  {
+   "fieldname": "column_break_2",
+   "fieldtype": "Column Break"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2026-03-27 10:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Bas Ca",
+ "name": "Compliance Task Template",
+ "naming_rule": "By fieldname",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "CA Partner",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "CA Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "print": 1,
+   "read": 1,
+   "role": "CA Staff"
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "title_field": "task_name",
+ "track_changes": 1
+}

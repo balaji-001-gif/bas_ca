@@ -1,0 +1,16 @@
+[project]
+name = "bas_ca"
+authors = [
+    { name = "Antigravity", email = "dev@antigravity.in"}
+]
+description = "CA & CS Practice Management for Indian firms"
+requires-python = ">=3.10"
+readme = "README.md"
+dynamic = ["version"]
+
+[build-system]
+requires = ["flit_core >=3.4,<4"]
+build-backend = "flit_core.buildapi"
+
+[tool.bench]
+app-name = "bas_ca"

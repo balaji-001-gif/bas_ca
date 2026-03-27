@@ -1,0 +1,237 @@
+{
+ "actions": [],
+ "autoname": "BM-.YYYY.-.#####",
+ "creation": "2026-03-27 10:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "details_section",
+  "client_engagement",
+  "meeting_type",
+  "meeting_number",
+  "meeting_date",
+  "meeting_time",
+  "column_break_1",
+  "venue",
+  "video_conferencing",
+  "vc_platform",
+  "quorum_met",
+  "status",
+  "notice_section",
+  "notice_sent_date",
+  "ss1_ss2_compliant",
+  "column_break_2",
+  "mgt_14_required",
+  "agenda_section",
+  "agenda",
+  "minutes_section",
+  "minutes",
+  "resolutions_section",
+  "resolutions_passed",
+  "attachments_section",
+  "attendance_register"
+ ],
+ "fields": [
+  {
+   "fieldname": "details_section",
+   "fieldtype": "Section Break",
+   "label": "Meeting Details"
+  },
+  {
+   "fieldname": "client_engagement",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Client Engagement",
+   "options": "Client Engagement"
+  },
+  {
+   "fieldname": "meeting_type",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Meeting Type",
+   "options": "Board Meeting\nAGM\nEGM\nPostal Ballot\nCommittee Meeting"
+  },
+  {
+   "fieldname": "meeting_number",
+   "fieldtype": "Data",
+   "label": "Meeting Number"
+  },
+  {
+   "fieldname": "meeting_date",
+   "fieldtype": "Date",
+   "in_list_view": 1,
+   "label": "Meeting Date"
+  },
+  {
+   "fieldname": "meeting_time",
+   "fieldtype": "Time",
+   "label": "Meeting Time"
+  },
+  {
+   "fieldname": "column_break_1",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "venue",
+   "fieldtype": "Data",
+   "label": "Venue"
+  },
+  {
+   "default": 0,
+   "fieldname": "video_conferencing",
+   "fieldtype": "Check",
+   "label": "Video Conferencing"
+  },
+  {
+   "fieldname": "vc_platform",
+   "fieldtype": "Data",
+   "label": "VC Platform",
+   "depends_on": "eval:doc.video_conferencing"
+  },
+  {
+   "default": 0,
+   "fieldname": "quorum_met",
+   "fieldtype": "Check",
+   "label": "Quorum Met"
+  },
+  {
+   "default": "Scheduled",
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Status",
+   "options": "Scheduled\nNotice Sent\nHeld\nMinutes Drafted\nMinutes Approved\nFiled"
+  },
+  {
+   "fieldname": "notice_section",
+   "fieldtype": "Section Break",
+   "label": "Compliance"
+  },
+  {
+   "fieldname": "notice_sent_date",
+   "fieldtype": "Date",
+   "label": "Notice Sent Date"
+  },
+  {
+   "default": 0,
+   "fieldname": "ss1_ss2_compliant",
+   "fieldtype": "Check",
+   "label": "SS-1/SS-2 Compliant"
+  },
+  {
+   "fieldname": "column_break_2",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": 0,
+   "fieldname": "mgt_14_required",
+   "fieldtype": "Check",
+   "label": "MGT-14 Required"
+  },
+  {
+   "fieldname": "agenda_section",
+   "fieldtype": "Section Break",
+   "label": "Agenda"
+  },
+  {
+   "fieldname": "agenda",
+   "fieldtype": "Text Editor",
+   "label": "Agenda"
+  },
+  {
+   "fieldname": "minutes_section",
+   "fieldtype": "Section Break",
+   "label": "Minutes"
+  },
+  {
+   "fieldname": "minutes",
+   "fieldtype": "Text Editor",
+   "label": "Minutes"
+  },
+  {
+   "fieldname": "resolutions_section",
+   "fieldtype": "Section Break",
+   "label": "Resolutions Passed"
+  },
+  {
+   "fieldname": "resolutions_passed",
+   "fieldtype": "Text Editor",
+   "label": "Resolutions Passed"
+  },
+  {
+   "fieldname": "attachments_section",
+   "fieldtype": "Section Break",
+   "label": "Attachments"
+  },
+  {
+   "fieldname": "attendance_register",
+   "fieldtype": "Attach",
+   "label": "Attendance Register"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2026-03-27 10:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Bas Ca",
+ "name": "Board Meeting",
+ "naming_rule": "Expression",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "CA Partner",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "CA Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "email": 1,
+   "print": 1,
+   "read": 1,
+   "role": "CS Executive",
+   "write": 1
+  },
+  {
+   "print": 1,
+   "read": 1,
+   "role": "CA Client"
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "meeting_date",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1
+}

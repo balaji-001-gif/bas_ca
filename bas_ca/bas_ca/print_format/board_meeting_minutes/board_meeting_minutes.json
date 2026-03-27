@@ -1,0 +1,11 @@
+{
+ "doctype": "Print Format",
+ "name": "Board Meeting Minutes",
+ "doc_type": "Board Meeting",
+ "module": "Bas Ca",
+ "print_format_type": "Jinja",
+ "standard": "Yes",
+ "custom_format": 1,
+ "default_print_language": "en",
+ "disabled": 0
+}
