@@ -1,0 +1,132 @@
+{
+ "charts": [
+  {
+   "chart_name": "Compliance Ageing",
+   "label": "Compliance Status"
+  },
+  {
+   "chart_name": "Revenue vs Effort Analysis",
+   "label": "Revenue/Hr"
+  }
+ ],
+ "content": "[{\"type\":\"header\",\"data\":{\"text\":\"CA & CS Practice Management\",\"level\":2}},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Client Engagement\"}},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Compliance Task\"}},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"GST Return Tracker\"}},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"ROC Filing\"}},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Board Meeting\"}},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Secretarial Audit\"}},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Statutory Register\"}},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Time Log CA\"}},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Compliance Task Template\"}}]",
+ "creation": "2026-03-28 10:00:00.000000",
+ "docstatus": 0,
+ "doctype": "Workspace",
+ "for_user": "",
+ "hide_custom": 0,
+ "icon": "assignment",
+ "indicator_color": "blue",
+ "is_default": 0,
+ "is_standard": 1,
+ "label": "Bas CA",
+ "links": [
+  {
+   "label": "Compliance Management",
+   "link_type": "DocType",
+   "link_to": "Compliance Task",
+   "type": "Link"
+  },
+  {
+   "label": "Client Management",
+   "link_type": "DocType",
+   "link_to": "Client Engagement",
+   "type": "Link"
+  },
+  {
+   "label": "GST & Indirect Tax",
+   "link_type": "DocType",
+   "link_to": "GST Return Tracker",
+   "type": "Link"
+  },
+  {
+   "label": "Corporate Law (ROC)",
+   "link_type": "DocType",
+   "link_to": "ROC Filing",
+   "type": "Link"
+  },
+  {
+   "label": "Secretarial Standard",
+   "link_type": "DocType",
+   "link_to": "Board Meeting",
+   "type": "Link"
+  },
+  {
+   "label": "Audits",
+   "link_type": "DocType",
+   "link_to": "Secretarial Audit",
+   "type": "Link"
+  }
+ ],
+ "modified": "2026-03-28 10:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Bas Ca",
+ "name": "Bas CA",
+ "onboarding": "",
+ "owner": "Administrator",
+ "parent_page": "",
+ "public": 1,
+ "roles": [
+  {
+   "role": "CA Partner"
+  },
+  {
+   "role": "CA Manager"
+  },
+  {
+   "role": "CA Staff"
+  },
+  {
+   "role": "CS Executive"
+  }
+ ],
+ "sequence_id": 1,
+ "shortcuts": [
+  {
+   "label": "New Client",
+   "link_to": "Client Engagement",
+   "type": "DocType"
+  },
+  {
+   "label": "Pending Tasks",
+   "link_to": "Compliance Task",
+   "type": "DocType"
+  },
+  {
+   "label": "GST Returns",
+   "link_to": "GST Return Tracker",
+   "type": "DocType"
+  },
+  {
+   "label": "ROC Filings",
+   "link_to": "ROC Filing",
+   "type": "DocType"
+  },
+  {
+   "label": "Compliance Ageing",
+   "link_to": "Compliance Ageing",
+   "type": "Report"
+  },
+  {
+   "label": "Client Health Score",
+   "link_to": "Client Compliance Health Score",
+   "type": "Report"
+  },
+  {
+   "label": "Penalty Avoidance",
+   "link_to": "Penalty Avoidance",
+   "type": "Report"
+  },
+  {
+   "label": "GST Recon Summary",
+   "link_to": "GST TDS Reconciliation Summary",
+   "type": "Report"
+  },
+  {
+   "label": "Revenue vs Effort",
+   "link_to": "Revenue vs Effort Analysis",
+   "type": "Report"
+  }
+ ],
+ "title": "Bas CA Practice Management"
+}
