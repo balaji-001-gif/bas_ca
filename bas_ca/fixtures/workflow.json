@@ -81,7 +81,8 @@
         "next_state": "Archived",
         "allowed": "CA Manager"
       }
-    ]
+    ],
+    "workflow_name": "GST Return Workflow"
   },
   {
     "doctype": "Workflow",
@@ -165,7 +166,8 @@
         "next_state": "SRN Received",
         "allowed": "CA Manager"
       }
-    ]
+    ],
+    "workflow_name": "ROC Filing Workflow"
   },
   {
     "doctype": "Workflow",
@@ -225,7 +227,8 @@
         "next_state": "In Progress",
         "allowed": "CA Manager"
       }
-    ]
+    ],
+    "workflow_name": "Compliance Task Workflow"
   },
   {
     "doctype": "Workflow",
@@ -303,7 +306,8 @@
         "next_state": "Filed",
         "allowed": "CS Executive"
       }
-    ]
+    ],
+    "workflow_name": "Board Meeting Workflow"
   },
   {
     "doctype": "Workflow",
@@ -375,6 +379,7 @@
         "next_state": "Submitted",
         "allowed": "CA Partner"
       }
-    ]
+    ],
+    "workflow_name": "Secretarial Audit Workflow"
   }
 ]
