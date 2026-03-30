@@ -11,6 +11,11 @@ class GSTReturnTracker(Document):
         condition_field=None,
         route_field='route',
     )
+
+    def get_list_context(self, context):
+        return {
+            "row_template": "bas_ca/bas_ca/doctype/gst_return_tracker/templates/gst_return_tracker_row.html"
+        }
     def validate(self):
         self.calculate_itc_diff()
 

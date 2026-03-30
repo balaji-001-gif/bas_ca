@@ -348,3 +348,66 @@ def has_portal_permission(doc, ptype, user, verbose=False):
         return doc.client_engagement == user_engagement
 
     return False
+
+
+@frappe.whitelist()
+def get_portal_dashboard_data(user):
+    """
+    Data aggregator for the CA Client Portal Dashboard.
+    """
+    engagement_name = frappe.db.get_value(
+        "Client Engagement", 
+        {"portal_user": user, "portal_access": 1}, 
+        "name"
+    )
+    
+    if not engagement_name:
+        return {
+            "client_name": "No Active Engagement",
+            "health_score": 0,
+            "pending_tasks_count": 0,
+            "next_deadline": "N/A",
+            "recent_filings": []
+        }
+
+    engagement = frappe.get_doc("Client Engagement", engagement_name)
+    
+    # 1. Pending Tasks
+    pending_tasks = frappe.get_all(
+        "Compliance Task",
+        filters={"client_engagement": engagement_name, "status": ["not in", ["Filed", "Waived"]]},
+        fields=["name", "task_name", "due_date", "status"]
+    )
+    
+    # 2. Next Deadline
+    next_task = frappe.get_all(
+        "Compliance Task",
+        filters={"client_engagement": engagement_name, "status": ["not in", ["Filed", "Waived"]]},
+        fields=["due_date"],
+        order_by="due_date asc",
+        limit=1
+    )
+    next_deadline = next_task[0].due_date if next_task else None
+
+    # 3. Recent Filings
+    recent_filings = frappe.get_all(
+        "Compliance Task",
+        filters={"client_engagement": engagement_name, "status": "Filed"},
+        fields=["task_name", "filing_date", "status"],
+        order_by="filing_date desc",
+        limit=5
+    )
+    
+    # 4. Health Score (Total Filed / Total Tasks)
+    total_tasks = frappe.db.count("Compliance Task", {"client_engagement": engagement_name})
+    filed_tasks = frappe.db.count("Compliance Task", {"client_engagement": engagement_name, "status": "Filed"})
+    health_score = int((filed_tasks / total_tasks * 100)) if total_tasks > 0 else 100
+
+    return {
+        "client_name": engagement.client,
+        "health_score": health_score,
+        "pending_tasks_count": len(pending_tasks),
+        "next_deadline": next_deadline,
+        "recent_filings": recent_filings,
+        "engagement_status": engagement.engagement_status
+    }

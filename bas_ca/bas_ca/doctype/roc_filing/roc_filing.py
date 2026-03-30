@@ -11,3 +11,8 @@ class ROCFiling(Document):
         route_field='route',
     )
     pass
+
+    def get_list_context(self, context):
+        return {
+            "row_template": "bas_ca/bas_ca/doctype/roc_filing/templates/roc_filing_row.html"
+        }

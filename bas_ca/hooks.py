@@ -44,9 +44,9 @@ required_apps = ["erpnext"]
 # home_page = "login"
 
 # website user home page (by Role)
-# role_home_page = {
-#	"Role": "home_page"
-# }
+role_home_page = {
+	"CA Client": "bas-ca-portal"
+}
 
 # Generators
 # ----------
@@ -117,6 +117,7 @@ has_permission = {
 }
 
 portal_menu_items = [
+    {"title": "Dashboard", "route": "/bas-ca-portal", "role": "CA Client", "icon": "fa fa-dashboard"},
     {"title": "My Engagement", "route": "/client-engagement", "role": "CA Client"},
     {"title": "Compliance Tasks", "route": "/compliance-tasks", "role": "CA Client"},
     {"title": "GST Returns", "route": "/gst-returns", "role": "CA Client"},
