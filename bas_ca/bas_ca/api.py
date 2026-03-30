@@ -320,3 +320,31 @@ be and are hereby confirmed.</p>
     doc.db_set("minutes", minutes_template)
     doc.db_set("status", "Minutes Drafted")
     return True
+
+
+def has_portal_permission(doc, ptype, user, verbose=False):
+    """
+    Scripted permission check for CA Client portal access.
+    Ensures clients only see records linked to their Client Engagement.
+    """
+    if "CA Client" not in frappe.get_roles(user):
+        return True  # Let standard permissions handle other roles
+
+    # Find the Client Engagement linked to this user
+    user_engagement = frappe.db.get_value(
+        "Client Engagement",
+        {"portal_user": user, "portal_access": 1},
+        "name"
+    )
+
+    if not user_engagement:
+        return False
+
+    # Check permission based on DocType
+    if doc.doctype == "Client Engagement":
+        return doc.name == user_engagement
+
+    if hasattr(doc, "client_engagement"):
+        return doc.client_engagement == user_engagement
+
+    return False

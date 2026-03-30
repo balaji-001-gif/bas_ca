@@ -109,6 +109,20 @@ required_apps = ["erpnext"]
 #	"Event": "frappe.desk.doctype.event.event.has_permission",
 # }
 
+has_permission = {
+    "Client Engagement": "bas_ca.bas_ca.api.has_portal_permission",
+    "Compliance Task": "bas_ca.bas_ca.api.has_portal_permission",
+    "GST Return Tracker": "bas_ca.bas_ca.api.has_portal_permission",
+    "ROC Filing": "bas_ca.bas_ca.api.has_portal_permission",
+}
+
+portal_menu_items = [
+    {"title": "My Engagement", "route": "/client-engagement", "role": "CA Client"},
+    {"title": "Compliance Tasks", "route": "/compliance-tasks", "role": "CA Client"},
+    {"title": "GST Returns", "route": "/gst-returns", "role": "CA Client"},
+    {"title": "ROC Filings", "route": "/roc-filings", "role": "CA Client"},
+]
+
 # DocType Class
 # ---------------
 # Override standard doctype classes
