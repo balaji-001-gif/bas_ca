@@ -6,6 +6,10 @@ from frappe.model.document import Document
 
 
 class ClientEngagement(Document):
+    website = frappe._dict(
+        condition_field='portal_access',
+        route_field='route',
+    )
     def validate(self):
         self.validate_pan()
         self.validate_gstin()

@@ -5,4 +5,7 @@ from frappe.model.document import Document
 
 
 class ROCFiling(Document):
+    website = frappe._dict(
+        route_field='route',
+    )
     pass
