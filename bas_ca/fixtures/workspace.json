@@ -1,0 +1,339 @@
+[
+  {
+   "charts": [],
+   "content": "[{\"id\":\"hdr1\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"><b>Your Shortcuts</b></span>\",\"col\":12}},{\"id\":\"sc1\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Client Engagement\",\"col\":4}},{\"id\":\"sc2\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Compliance Task\",\"col\":4}},{\"id\":\"sc3\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"GST Return Tracker\",\"col\":4}},{\"id\":\"sc4\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"ROC Filing\",\"col\":4}},{\"id\":\"sc5\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Board Meeting\",\"col\":4}},{\"id\":\"sc6\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Secretarial Audit\",\"col\":4}},{\"id\":\"sc7\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Statutory Register\",\"col\":4}},{\"id\":\"sc8\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Time Log CA\",\"col\":4}},{\"id\":\"sc9\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Compliance Task Template\",\"col\":4}},{\"id\":\"sc10\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Compliance Ageing\",\"col\":4}},{\"id\":\"sc11\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Client Health Score\",\"col\":4}},{\"id\":\"sc12\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Penalty Avoidance\",\"col\":4}},{\"id\":\"sc13\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"GST Recon Summary\",\"col\":4}},{\"id\":\"sc14\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Revenue vs Effort\",\"col\":4}},{\"id\":\"hdr2\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"><b>Reports & Analytics</b></span>\",\"col\":12}},{\"id\":\"spacer1\",\"type\":\"spacer\",\"data\":{\"col\":12}}]",
+   "creation": "2026-03-30 12:45:00.000000",
+   "custom_blocks": [],
+   "docstatus": 0,
+   "doctype": "Workspace",
+   "for_user": "",
+   "hide_custom": 0,
+   "icon": "assignment",
+   "idx": 0,
+   "is_default": 0,
+   "is_hidden": 0,
+   "label": "Bas CA Practice Management",
+   "links": [
+    {
+     "hidden": 0,
+     "is_query_report": 0,
+     "label": "Compliance Management",
+     "link_count": 0,
+     "link_type": "DocType",
+     "link_to": "",
+     "onboard": 0,
+     "type": "Card Break"
+    },
+    {
+     "hidden": 0,
+     "is_query_report": 0,
+     "label": "Client Engagement",
+     "link_count": 0,
+     "link_type": "DocType",
+     "link_to": "Client Engagement",
+     "onboard": 1,
+     "type": "Link"
+    },
+    {
+     "hidden": 0,
+     "is_query_report": 0,
+     "label": "Compliance Task",
+     "link_count": 0,
+     "link_type": "DocType",
+     "link_to": "Compliance Task",
+     "onboard": 1,
+     "type": "Link"
+    },
+    {
+     "hidden": 0,
+     "is_query_report": 0,
+     "label": "Compliance Task Template",
+     "link_count": 0,
+     "link_type": "DocType",
+     "link_to": "Compliance Task Template",
+     "onboard": 0,
+     "type": "Link"
+    },
+    {
+     "hidden": 0,
+     "is_query_report": 0,
+     "label": "Time Log CA",
+     "link_count": 0,
+     "link_type": "DocType",
+     "link_to": "Time Log CA",
+     "onboard": 0,
+     "type": "Link"
+    },
+    {
+     "hidden": 0,
+     "is_query_report": 0,
+     "label": "GST & Indirect Tax",
+     "link_count": 0,
+     "link_type": "DocType",
+     "link_to": "",
+     "onboard": 0,
+     "type": "Card Break"
+    },
+    {
+     "hidden": 0,
+     "is_query_report": 0,
+     "label": "GST Return Tracker",
+     "link_count": 0,
+     "link_type": "DocType",
+     "link_to": "GST Return Tracker",
+     "onboard": 1,
+     "type": "Link"
+    },
+    {
+     "hidden": 0,
+     "is_query_report": 0,
+     "label": "Corporate Law & ROC",
+     "link_count": 0,
+     "link_type": "DocType",
+     "link_to": "",
+     "onboard": 0,
+     "type": "Card Break"
+    },
+    {
+     "hidden": 0,
+     "is_query_report": 0,
+     "label": "ROC Filing",
+     "link_count": 0,
+     "link_type": "DocType",
+     "link_to": "ROC Filing",
+     "onboard": 1,
+     "type": "Link"
+    },
+    {
+     "hidden": 0,
+     "is_query_report": 0,
+     "label": "Board Meeting",
+     "link_count": 0,
+     "link_type": "DocType",
+     "link_to": "Board Meeting",
+     "onboard": 0,
+     "type": "Link"
+    },
+    {
+     "hidden": 0,
+     "is_query_report": 0,
+     "label": "Secretarial Audit",
+     "link_count": 0,
+     "link_type": "DocType",
+     "link_to": "Secretarial Audit",
+     "onboard": 0,
+     "type": "Link"
+    },
+    {
+     "hidden": 0,
+     "is_query_report": 0,
+     "label": "Statutory Register",
+     "link_count": 0,
+     "link_type": "DocType",
+     "link_to": "Statutory Register",
+     "onboard": 0,
+     "type": "Link"
+    },
+    {
+     "hidden": 0,
+     "is_query_report": 0,
+     "label": "Reports & Analytics",
+     "link_count": 0,
+     "link_type": "DocType",
+     "link_to": "",
+     "onboard": 0,
+     "type": "Card Break"
+    },
+    {
+     "hidden": 0,
+     "is_query_report": 1,
+     "label": "Compliance Ageing",
+     "link_count": 0,
+     "link_type": "Report",
+     "link_to": "Compliance Ageing",
+     "onboard": 1,
+     "type": "Link"
+    },
+    {
+     "hidden": 0,
+     "is_query_report": 1,
+     "label": "GST Recon Summary",
+     "link_count": 0,
+     "link_type": "Report",
+     "link_to": "GST TDS Reconciliation Summary",
+     "onboard": 0,
+     "type": "Link"
+    },
+    {
+     "hidden": 0,
+     "is_query_report": 1,
+     "label": "Penalty Avoidance",
+     "link_count": 0,
+     "link_type": "Report",
+     "link_to": "Penalty Avoidance",
+     "onboard": 0,
+     "type": "Link"
+    },
+    {
+     "hidden": 0,
+     "is_query_report": 1,
+     "label": "Revenue vs Effort",
+     "link_count": 0,
+     "link_type": "Report",
+     "link_to": "Revenue vs Effort Analysis",
+     "onboard": 0,
+     "type": "Link"
+    },
+    {
+     "hidden": 0,
+     "is_query_report": 1,
+     "label": "Client Health Score",
+     "link_count": 0,
+     "link_type": "Report",
+     "link_to": "Client Compliance Health Score",
+     "onboard": 0,
+     "type": "Link"
+    }
+   ],
+   "modified": "2026-03-30 12:45:00.000000",
+   "modified_by": "Administrator",
+   "module": "Bas Ca",
+   "name": "Bas CA Practice Management",
+   "number_cards": [],
+   "owner": "Administrator",
+   "parent_page": "",
+   "public": 1,
+   "restrict_to_domain": "",
+   "roles": [],
+   "sequence_id": 25.0,
+   "shortcuts": [
+    {
+     "color": "Blue",
+     "doc_view": "List",
+     "label": "Client Engagement",
+     "link_to": "Client Engagement",
+     "stats_filter": "",
+     "type": "DocType",
+     "name": "sc1"
+    },
+    {
+     "color": "Orange",
+     "doc_view": "List",
+     "label": "Compliance Task",
+     "link_to": "Compliance Task",
+     "stats_filter": "",
+     "type": "DocType",
+     "name": "sc2"
+    },
+    {
+     "color": "Green",
+     "doc_view": "List",
+     "label": "GST Return Tracker",
+     "link_to": "GST Return Tracker",
+     "stats_filter": "",
+     "type": "DocType",
+     "name": "sc3"
+    },
+    {
+     "color": "Red",
+     "doc_view": "List",
+     "label": "ROC Filing",
+     "link_to": "ROC Filing",
+     "stats_filter": "",
+     "type": "DocType",
+     "name": "sc4"
+    },
+    {
+     "color": "Cyan",
+     "doc_view": "List",
+     "label": "Board Meeting",
+     "link_to": "Board Meeting",
+     "stats_filter": "",
+     "type": "DocType",
+     "name": "sc5"
+    },
+    {
+     "color": "Purple",
+     "doc_view": "List",
+     "label": "Secretarial Audit",
+     "link_to": "Secretarial Audit",
+     "stats_filter": "",
+     "type": "DocType",
+     "name": "sc6"
+    },
+    {
+     "color": "Grey",
+     "doc_view": "List",
+     "label": "Statutory Register",
+     "link_to": "Statutory Register",
+     "stats_filter": "",
+     "type": "DocType",
+     "name": "sc7"
+    },
+    {
+     "color": "Yellow",
+     "doc_view": "List",
+     "label": "Time Log CA",
+     "link_to": "Time Log CA",
+     "stats_filter": "",
+     "type": "DocType",
+     "name": "sc8"
+    },
+    {
+     "color": "Grey",
+     "doc_view": "List",
+     "label": "Compliance Task Template",
+     "link_to": "Compliance Task Template",
+     "stats_filter": "",
+     "type": "DocType",
+     "name": "sc9"
+    },
+    {
+     "color": "Orange",
+     "doc_view": "",
+     "label": "Compliance Ageing",
+     "link_to": "Compliance Ageing",
+     "stats_filter": "",
+     "type": "Report",
+     "name": "sc10"
+    },
+    {
+     "color": "Green",
+     "doc_view": "",
+     "label": "Client Health Score",
+     "link_to": "Client Compliance Health Score",
+     "stats_filter": "",
+     "type": "Report",
+     "name": "sc11"
+    },
+    {
+     "color": "Red",
+     "doc_view": "",
+     "label": "Penalty Avoidance",
+     "link_to": "Penalty Avoidance",
+     "stats_filter": "",
+     "type": "Report",
+     "name": "sc12"
+    },
+    {
+     "color": "Blue",
+     "doc_view": "",
+     "label": "GST Recon Summary",
+     "link_to": "GST TDS Reconciliation Summary",
+     "stats_filter": "",
+     "type": "Report",
+     "name": "sc13"
+    },
+    {
+     "color": "Cyan",
+     "doc_view": "",
+     "label": "Revenue vs Effort",
+     "link_to": "Revenue vs Effort Analysis",
+     "stats_filter": "",
+     "type": "Report",
+     "name": "sc14"
+    }
+   ],
+   "title": "Bas CA Practice Management"
+  }
+]
