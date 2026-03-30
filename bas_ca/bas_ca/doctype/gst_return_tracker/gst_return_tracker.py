@@ -8,7 +8,8 @@ from frappe.utils import flt
 
 class GSTReturnTracker(Document):
     website = frappe._dict(
-        route_field='route',
+        route_field='route', 
+        condition_field=None,
     )
     def validate(self):
         self.calculate_itc_diff()

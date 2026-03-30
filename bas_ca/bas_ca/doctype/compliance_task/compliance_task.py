@@ -8,7 +8,8 @@ from frappe.utils import today, date_diff, getdate, flt
 
 class ComplianceTask(Document):
     website = frappe._dict(
-        route_field='route',
+        route_field='route', 
+        condition_field=None,
     )
     def validate(self):
         self.set_penalty_risk()
