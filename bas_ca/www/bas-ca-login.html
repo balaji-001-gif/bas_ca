@@ -95,7 +95,7 @@
         const pwd = document.getElementById('pwd').value;
         
         frappe.call({
-            method: "frappe.auth.login",
+            method: "login",
             args: {
                 usr: usr,
                 pwd: pwd
