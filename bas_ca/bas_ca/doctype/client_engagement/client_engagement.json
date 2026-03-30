@@ -108,6 +108,12 @@
    "label": "Portal Access"
   },
   {
+   "fieldname": "portal_user",
+   "fieldtype": "Link",
+   "label": "Portal User",
+   "options": "User"
+  },
+  {
    "fieldname": "fee_section",
    "fieldtype": "Section Break",
    "label": "Fee Details"
@@ -249,5 +255,8 @@
  "sort_order": "DESC",
  "states": [],
  "title_field": "client",
- "track_changes": 1
+ "track_changes": 1,
+ "has_web_view": 1,
+ "is_published_field": "portal_access",
+ "route": "client-engagement"
 }
