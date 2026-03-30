@@ -1,6 +1,7 @@
 [
   {
     "doctype": "Compliance Task Template",
+    "name": "GSTR-1 Monthly",
     "task_name": "GSTR-1 Monthly",
     "compliance_type": "GST",
     "applicable_company_type": "Private Limited, OPC, LLP, Partnership, Proprietorship, Startup",
@@ -23,7 +24,8 @@
     "statutory_due_date": "2026-07-13",
     "penalty_per_day": 200,
     "reminder_days_before": 7,
-    "description": "Quarterly return for outward supplies under QRMP scheme."
+    "description": "Quarterly return for outward supplies under QRMP scheme.",
+    "name": "GSTR-1 Quarterly (QRMP)"
   },
   {
     "doctype": "Compliance Task Template",
@@ -36,7 +38,8 @@
     "statutory_due_date": "2026-04-20",
     "penalty_per_day": 200,
     "reminder_days_before": 5,
-    "description": "Monthly summary return with tax payment. Due by 20th of the following month."
+    "description": "Monthly summary return with tax payment. Due by 20th of the following month.",
+    "name": "GSTR-3B Monthly"
   },
   {
     "doctype": "Compliance Task Template",
@@ -49,7 +52,8 @@
     "statutory_due_date": "2026-07-22",
     "penalty_per_day": 200,
     "reminder_days_before": 7,
-    "description": "Quarterly summary return with tax payment under QRMP."
+    "description": "Quarterly summary return with tax payment under QRMP.",
+    "name": "GSTR-3B Quarterly"
   },
   {
     "doctype": "Compliance Task Template",
@@ -62,7 +66,8 @@
     "statutory_due_date": "2025-12-31",
     "penalty_per_day": 200,
     "reminder_days_before": 30,
-    "description": "Annual GST return. Maximum penalty capped at 0.25% of turnover."
+    "description": "Annual GST return. Maximum penalty capped at 0.25% of turnover.",
+    "name": "GSTR-9 Annual Return"
   },
   {
     "doctype": "Compliance Task Template",
@@ -75,7 +80,8 @@
     "statutory_due_date": "2025-12-31",
     "penalty_per_day": 200,
     "reminder_days_before": 30,
-    "description": "GST reconciliation statement for taxpayers with turnover > ₹5 Cr."
+    "description": "GST reconciliation statement for taxpayers with turnover > \u20b95 Cr.",
+    "name": "GSTR-9C Reconciliation Statement"
   },
   {
     "doctype": "Compliance Task Template",
@@ -88,7 +94,8 @@
     "statutory_due_date": "2025-07-31",
     "penalty_per_day": 0,
     "reminder_days_before": 30,
-    "description": "ITR for individuals/HUF not requiring audit. Late fee ₹5,000 u/s 234F."
+    "description": "ITR for individuals/HUF not requiring audit. Late fee \u20b95,000 u/s 234F.",
+    "name": "ITR - Individuals & HUF (Non-Audit)"
   },
   {
     "doctype": "Compliance Task Template",
@@ -101,7 +108,8 @@
     "statutory_due_date": "2025-10-31",
     "penalty_per_day": 0,
     "reminder_days_before": 30,
-    "description": "ITR for businesses requiring audit. Due 31 Oct if tax audit applicable."
+    "description": "ITR for businesses requiring audit. Due 31 Oct if tax audit applicable.",
+    "name": "ITR - Business (Audit Cases)"
   },
   {
     "doctype": "Compliance Task Template",
@@ -114,7 +122,8 @@
     "statutory_due_date": "2025-10-31",
     "penalty_per_day": 0,
     "reminder_days_before": 30,
-    "description": "ITR for companies (other than those claiming Sec 11 exemption)."
+    "description": "ITR for companies (other than those claiming Sec 11 exemption).",
+    "name": "ITR-6 Companies"
   },
   {
     "doctype": "Compliance Task Template",
@@ -127,7 +136,8 @@
     "statutory_due_date": "2025-09-30",
     "penalty_per_day": 0,
     "reminder_days_before": 30,
-    "description": "Tax Audit Report. Penalty of 0.5% of turnover (max ₹1.5 lakh) for non-compliance."
+    "description": "Tax Audit Report. Penalty of 0.5% of turnover (max \u20b91.5 lakh) for non-compliance.",
+    "name": "Tax Audit Report (3CA/3CB/3CD)"
   },
   {
     "doctype": "Compliance Task Template",
@@ -140,7 +150,8 @@
     "statutory_due_date": "2025-06-15",
     "penalty_per_day": 0,
     "reminder_days_before": 15,
-    "description": "First installment of advance tax (15% of estimated tax)."
+    "description": "First installment of advance tax (15% of estimated tax).",
+    "name": "Advance Tax - Q1 (15 June)"
   },
   {
     "doctype": "Compliance Task Template",
@@ -153,7 +164,8 @@
     "statutory_due_date": "2025-09-15",
     "penalty_per_day": 0,
     "reminder_days_before": 15,
-    "description": "Second installment of advance tax (cumulative 45%)."
+    "description": "Second installment of advance tax (cumulative 45%).",
+    "name": "Advance Tax - Q2 (15 Sep)"
   },
   {
     "doctype": "Compliance Task Template",
@@ -166,7 +178,8 @@
     "statutory_due_date": "2025-12-15",
     "penalty_per_day": 0,
     "reminder_days_before": 15,
-    "description": "Third installment of advance tax (cumulative 75%)."
+    "description": "Third installment of advance tax (cumulative 75%).",
+    "name": "Advance Tax - Q3 (15 Dec)"
   },
   {
     "doctype": "Compliance Task Template",
@@ -179,7 +192,8 @@
     "statutory_due_date": "2026-03-15",
     "penalty_per_day": 0,
     "reminder_days_before": 15,
-    "description": "Final installment of advance tax (100%)."
+    "description": "Final installment of advance tax (100%).",
+    "name": "Advance Tax - Q4 (15 Mar)"
   },
   {
     "doctype": "Compliance Task Template",
@@ -192,7 +206,8 @@
     "statutory_due_date": "2025-07-31",
     "penalty_per_day": 200,
     "reminder_days_before": 7,
-    "description": "Quarterly TDS return for non-salary payments. Late fee ₹200/day."
+    "description": "Quarterly TDS return for non-salary payments. Late fee \u20b9200/day.",
+    "name": "TDS Return - 26Q Quarterly"
   },
   {
     "doctype": "Compliance Task Template",
@@ -205,7 +220,8 @@
     "statutory_due_date": "2025-07-31",
     "penalty_per_day": 200,
     "reminder_days_before": 7,
-    "description": "Quarterly TDS return for salary payments."
+    "description": "Quarterly TDS return for salary payments.",
+    "name": "TDS Return - 24Q Quarterly"
   },
   {
     "doctype": "Compliance Task Template",
@@ -218,7 +234,8 @@
     "statutory_due_date": "2025-07-31",
     "penalty_per_day": 200,
     "reminder_days_before": 7,
-    "description": "Quarterly TDS return for payments to non-residents."
+    "description": "Quarterly TDS return for payments to non-residents.",
+    "name": "TDS Return - 27Q Quarterly"
   },
   {
     "doctype": "Compliance Task Template",
@@ -231,7 +248,8 @@
     "statutory_due_date": "2025-06-15",
     "penalty_per_day": 100,
     "reminder_days_before": 15,
-    "description": "Issue TDS certificates to deductees."
+    "description": "Issue TDS certificates to deductees.",
+    "name": "Form 16/16A Issuance"
   },
   {
     "doctype": "Compliance Task Template",
@@ -244,7 +262,8 @@
     "statutory_due_date": "2025-07-15",
     "penalty_per_day": 200,
     "reminder_days_before": 7,
-    "description": "Quarterly TCS return."
+    "description": "Quarterly TCS return.",
+    "name": "TCS Return - 27EQ Quarterly"
   },
   {
     "doctype": "Compliance Task Template",
@@ -257,7 +276,8 @@
     "statutory_due_date": "2025-10-29",
     "penalty_per_day": 100,
     "reminder_days_before": 15,
-    "description": "Filing of financial statements with ROC. ₹100/day penalty for delay."
+    "description": "Filing of financial statements with ROC. \u20b9100/day penalty for delay.",
+    "name": "AOC-4 Financial Statements"
   },
   {
     "doctype": "Compliance Task Template",
@@ -270,7 +290,8 @@
     "statutory_due_date": "2025-11-28",
     "penalty_per_day": 100,
     "reminder_days_before": 15,
-    "description": "Filing of annual return with ROC."
+    "description": "Filing of annual return with ROC.",
+    "name": "MGT-7 Annual Return"
   },
   {
     "doctype": "Compliance Task Template",
@@ -283,7 +304,8 @@
     "statutory_due_date": "2025-10-14",
     "penalty_per_day": 100,
     "reminder_days_before": 7,
-    "description": "Intimation of auditor appointment to ROC."
+    "description": "Intimation of auditor appointment to ROC.",
+    "name": "ADT-1 Auditor Appointment"
   },
   {
     "doctype": "Compliance Task Template",
@@ -296,7 +318,8 @@
     "statutory_due_date": "2025-09-30",
     "penalty_per_day": 0,
     "reminder_days_before": 30,
-    "description": "Annual KYC update for all directors. ₹5,000 late fee after due date."
+    "description": "Annual KYC update for all directors. \u20b95,000 late fee after due date.",
+    "name": "DIR-3 KYC Annual"
   },
   {
     "doctype": "Compliance Task Template",
@@ -309,7 +332,8 @@
     "statutory_due_date": null,
     "penalty_per_day": 100,
     "reminder_days_before": 7,
-    "description": "Declaration of significant beneficial ownership."
+    "description": "Declaration of significant beneficial ownership.",
+    "name": "BEN-2 Significant Beneficial Owner"
   },
   {
     "doctype": "Compliance Task Template",
@@ -322,7 +346,8 @@
     "statutory_due_date": "2026-04-30",
     "penalty_per_day": 0,
     "reminder_days_before": 15,
-    "description": "Half-yearly return for outstanding payments to MSMEs."
+    "description": "Half-yearly return for outstanding payments to MSMEs.",
+    "name": "MSME Form I (Half-Yearly Apr)"
   },
   {
     "doctype": "Compliance Task Template",
@@ -335,7 +360,8 @@
     "statutory_due_date": "2025-10-31",
     "penalty_per_day": 0,
     "reminder_days_before": 15,
-    "description": "Half-yearly return for outstanding payments to MSMEs."
+    "description": "Half-yearly return for outstanding payments to MSMEs.",
+    "name": "MSME Form I (Half-Yearly Oct)"
   },
   {
     "doctype": "Compliance Task Template",
@@ -348,7 +374,8 @@
     "statutory_due_date": "2025-06-30",
     "penalty_per_day": 0,
     "reminder_days_before": 15,
-    "description": "Annual return of deposits or exempt deposits."
+    "description": "Annual return of deposits or exempt deposits.",
+    "name": "DPT-3 Return of Deposits"
   },
   {
     "doctype": "Compliance Task Template",
@@ -361,7 +388,8 @@
     "statutory_due_date": "2025-05-30",
     "penalty_per_day": 100,
     "reminder_days_before": 15,
-    "description": "Annual return for LLP. Due within 60 days from close of FY."
+    "description": "Annual return for LLP. Due within 60 days from close of FY.",
+    "name": "LLP-11 Annual Return"
   },
   {
     "doctype": "Compliance Task Template",
@@ -374,6 +402,7 @@
     "statutory_due_date": "2025-10-30",
     "penalty_per_day": 100,
     "reminder_days_before": 15,
-    "description": "Statement of Account & Solvency for LLP."
+    "description": "Statement of Account & Solvency for LLP.",
+    "name": "LLP-8 Statement of Accounts"
   }
 ]

@@ -3,30 +3,35 @@
     "doctype": "Role",
     "role_name": "CA Partner",
     "desk_access": 1,
-    "is_custom": 1
+    "is_custom": 1,
+    "name": "CA Partner"
   },
   {
     "doctype": "Role",
     "role_name": "CA Manager",
     "desk_access": 1,
-    "is_custom": 1
+    "is_custom": 1,
+    "name": "CA Manager"
   },
   {
     "doctype": "Role",
     "role_name": "CA Staff",
     "desk_access": 1,
-    "is_custom": 1
+    "is_custom": 1,
+    "name": "CA Staff"
   },
   {
     "doctype": "Role",
     "role_name": "CS Executive",
     "desk_access": 1,
-    "is_custom": 1
+    "is_custom": 1,
+    "name": "CS Executive"
   },
   {
     "doctype": "Role",
     "role_name": "CA Client",
     "desk_access": 0,
-    "is_custom": 1
+    "is_custom": 1,
+    "name": "CA Client"
   }
 ]
