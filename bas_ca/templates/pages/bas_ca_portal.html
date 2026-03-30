@@ -193,6 +193,23 @@
                     {% endif %}
                 </div>
             </div>
+
+            <!-- Requirement Update Tool -->
+            <div class="mt-12 bg-white rounded-2xl p-6 shadow-sm border border-slate-100 max-w-4xl">
+                <div class="flex items-center gap-3 mb-4">
+                    <span class="material-symbols-outlined text-primary">edit_note</span>
+                    <h3 class="text-xl font-bold text-primary">Requirement Update</h3>
+                </div>
+                <p class="text-sm text-slate-600 mb-4">Type any note, requirement, or query for your compliance manager. We will act on it immediately.</p>
+                <div class="space-y-4">
+                    <textarea id="requirement-text" rows="3" class="w-full rounded-xl border-slate-200 focus:border-primary focus:ring-primary shadow-sm" placeholder="e.g. Uploaded GST sales data for Oct, please check."></textarea>
+                    <div class="flex justify-end">
+                        <button id="submit-update" class="px-6 py-2 bg-primary text-white font-bold rounded-xl hover:bg-primary-container transition-all flex items-center gap-2">
+                             <span class="material-symbols-outlined text-sm">send</span> Submit Update
+                        </button>
+                    </div>
+                </div>
+            </div>
         </main>
     </div>
 
@@ -216,4 +233,37 @@
         </a>
     </nav>
 </div>
+
+<script>
+frappe.ready(function() {
+    // Add smooth entrance animations
+    $(".glass-card, .bg-white").addClass("animate__animated animate__fadeInUp");
+
+    // Handle Requirement Update Submission
+    $('#submit-update').on('click', function() {
+        const text = $('#requirement-text').val();
+        if(!text) {
+            frappe.show_alert({message: "Please enter a requirement or note", indicator: "orange"});
+            return;
+        }
+
+        $(this).attr('disabled', true).html('<i class="fa fa-spinner fa-spin"></i> Sending...');
+
+        frappe.call({
+            method: "bas_ca.bas_ca.api.post_requirement_update",
+            args: {
+                user: frappe.session.user,
+                text: text
+            },
+            callback: function(r) {
+                $('#submit-update').attr('disabled', false).html('<span class="material-symbols-outlined text-sm">send</span> Submit Update');
+                if(!r.exc) {
+                    frappe.show_alert({message: "Update sent to your Compliance Manager", indicator: "green"});
+                    $('#requirement-text').val('');
+                }
+            }
+        });
+    });
+});
+</script>
 {% endblock %}

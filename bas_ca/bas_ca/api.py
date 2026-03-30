@@ -411,3 +411,32 @@ def get_portal_dashboard_data(user):
         "recent_filings": recent_filings,
         "engagement_status": engagement.engagement_status
     }
+
+
+@frappe.whitelist()
+def post_requirement_update(user, text):
+    """
+    Handles client 'Requirement Update' submissions from the portal.
+    Logs the update as a comment on the Client Engagement Record.
+    """
+    engagement_name = frappe.db.get_value(
+        "Client Engagement", 
+        {"portal_user": user, "portal_access": 1}, 
+        "name"
+    )
+    
+    if not engagement_name:
+        frappe.throw("No active engagement found for this user.")
+
+    doc = frappe.get_doc("Client Engagement", engagement_name)
+    
+    # Add comment to the timeline
+    doc.add_comment(
+        "Comment",
+        text=f"🌐 **Portal Update from Client:**\n\n{text}"
+    )
+    
+    # Optional: Notify assigned CA (if any)
+    # frappe.publish_realtime("refresh_engagement", user=doc.owner)
+    
+    return "Success"
