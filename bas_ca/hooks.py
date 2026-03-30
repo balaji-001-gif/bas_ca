@@ -234,6 +234,9 @@ fixtures = [
         "filters": [["module", "=", "Bas Ca"]],
     },
     {
+        "dt": "Workflow State",
+    },
+    {
         "dt": "Workspace",
         "filters": [["name", "=", "Bas CA Practice Management"]],
     },

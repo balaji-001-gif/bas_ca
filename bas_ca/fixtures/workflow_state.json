@@ -1,0 +1,23 @@
+[
+    {"doctype": "Workflow State", "name": "Pending", "workflow_state_name": "Pending", "style": "Warning"},
+    {"doctype": "Workflow State", "name": "In Progress", "workflow_state_name": "In Progress", "style": "Primary"},
+    {"doctype": "Workflow State", "name": "Review Pending", "workflow_state_name": "Review Pending", "style": "Warning"},
+    {"doctype": "Workflow State", "name": "Data Prepared", "workflow_state_name": "Data Prepared", "style": "Primary"},
+    {"doctype": "Workflow State", "name": "Under Review", "workflow_state_name": "Under Review", "style": "Warning"},
+    {"doctype": "Workflow State", "name": "Approved", "workflow_state_name": "Approved", "style": "Success"},
+    {"doctype": "Workflow State", "name": "Filed", "workflow_state_name": "Filed", "style": "Success"},
+    {"doctype": "Workflow State", "name": "Waived", "workflow_state_name": "Waived", "style": "Inverse"},
+    {"doctype": "Workflow State", "name": "Scheduled", "workflow_state_name": "Scheduled", "style": "Inverse"},
+    {"doctype": "Workflow State", "name": "Notice Sent", "workflow_state_name": "Notice Sent", "style": "Primary"},
+    {"doctype": "Workflow State", "name": "Held", "workflow_state_name": "Held", "style": "Success"},
+    {"doctype": "Workflow State", "name": "Minutes Drafted", "workflow_state_name": "Minutes Drafted", "style": "Warning"},
+    {"doctype": "Workflow State", "name": "Minutes Approved", "workflow_state_name": "Minutes Approved", "style": "Success"},
+    {"doctype": "Workflow State", "name": "Initiated", "workflow_state_name": "Initiated", "style": "Inverse"},
+    {"doctype": "Workflow State", "name": "Draft Report", "workflow_state_name": "Draft Report", "style": "Warning"},
+    {"doctype": "Workflow State", "name": "Final Report", "workflow_state_name": "Final Report", "style": "Primary"},
+    {"doctype": "Workflow State", "name": "Submitted", "workflow_state_name": "Submitted", "style": "Success"},
+    {"doctype": "Workflow State", "name": "Archived", "workflow_state_name": "Archived", "style": "Inverse"},
+    {"doctype": "Workflow State", "name": "Drafted", "workflow_state_name": "Drafted", "style": "Warning"},
+    {"doctype": "Workflow State", "name": "Client Approval", "workflow_state_name": "Client Approval", "style": "Warning"},
+    {"doctype": "Workflow State", "name": "SRN Received", "workflow_state_name": "SRN Received", "style": "Success"}
+]
