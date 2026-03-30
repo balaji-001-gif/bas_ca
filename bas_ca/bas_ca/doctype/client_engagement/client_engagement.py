@@ -6,10 +6,16 @@ from frappe.model.document import Document
 
 
 class ClientEngagement(Document):
+    def get_list_context(self, context):
+        return {
+            "row_template": "bas_ca/bas_ca/doctype/client_engagement/templates/client_engagement_row.html"
+        }
+
     website = frappe._dict(
         condition_field='portal_access',
         route_field='route',
     )
+
     def validate(self):
         self.validate_pan()
         self.validate_gstin()

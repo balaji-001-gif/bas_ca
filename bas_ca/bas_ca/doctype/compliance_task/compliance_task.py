@@ -12,6 +12,7 @@ class ComplianceTask(Document):
         route_field='route',
     )
 
+
     def get_list_context(self, context):
         return {
             "row_template": "bas_ca/bas_ca/doctype/compliance_task/templates/compliance_task_row.html"
