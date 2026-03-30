@@ -1,21 +1,40 @@
-<!-- GST Return Tracker Portal List Row -->
-<div class="glass-card stat-card" style="margin-bottom: 10px; padding: 1rem; cursor: pointer;" 
+<!-- Financial Vanguard Theme: GST Return Tracker Row -->
+<div class="group relative bg-surface-container-lowest rounded-xl p-4 flex items-center gap-4 transition-all duration-200 active:scale-[0.98] shadow-sm hover:shadow-md border-b-2 border-transparent hover:border-primary/10"
      onclick="window.location.href='/gst-returns/{{ doc.name }}'">
-    <div class="stat-icon bg-primary" style="width: 2.5rem; height: 2.5rem; font-size: 1rem;">
-        <i class="fa fa-percent"></i>
+    <!-- Icon / Status Indicator -->
+    <div class="w-12 h-12 rounded-full bg-surface-container-low flex items-center justify-center text-primary relative">
+        <span class="material-symbols-outlined">account_balance_wallet</span>
     </div>
-    <div class="item-main" style="flex: 1;">
-        <div class="item-title" style="font-size: 1.1rem;">{{ doc.return_type }} - {{ doc.filing_period }}</div>
-        <div class="item-subtitle">Due: {{ frappe.format_date(doc.due_date) }} | FY: {{ doc.financial_year }}</div>
-    </div>
-    <div style="text-align: right;">
-        <span class="badge-round {% if doc.status == 'Filed' %}badge-success{% elif doc.status == 'Pending' %}badge-warning{% else %}badge-danger{% endif %}">
-            {{ doc.status }}
-        </span>
-        {% if doc.itc_difference and doc.itc_difference != 0 %}
-        <div style="margin-top: 5px; font-size: 11px; color: var(--accent-danger);">
-            <i class="fa fa-exclamation-triangle"></i> ITC Mismatch
+    <!-- Content Logic -->
+    <div class="flex-1 min-w-0">
+        <div class="flex items-center justify-between mb-1">
+            <h3 class="text-on-surface font-semibold truncate text-sm md:text-base leading-tight">
+                {{ doc.return_type }} - {{ doc.filing_period }}
+            </h3>
+            <!-- Status Badge Logic -->
+            {% if doc.status == 'Filed' %}
+            <span class="px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 text-[10px] font-bold tracking-wider uppercase">
+                Success
+            </span>
+            {% else %}
+            <span class="px-2 py-0.5 rounded-full bg-on-tertiary-container/20 text-on-tertiary-container text-[10px] font-bold tracking-wider uppercase">
+                {{ doc.status }}
+            </span>
+            {% endif %}
         </div>
-        {% endif %}
+        <div class="flex items-center gap-3 text-on-surface-variant text-[12px]">
+            <span class="flex items-center gap-1">
+                <span class="material-symbols-outlined text-[14px]">calendar_today</span>
+                Due: {{ frappe.format_date(doc.due_date) }}
+            </span>
+            {% if doc.itc_difference and doc.itc_difference != 0 %}
+            <span class="w-1 h-1 rounded-full bg-error"></span>
+            <span class="font-bold text-error">ITC Mismatch</span>
+            {% endif %}
+        </div>
+    </div>
+    <!-- Trailing Action -->
+    <div class="flex items-center justify-center text-outline-variant group-hover:text-primary transition-colors">
+        <span class="material-symbols-outlined">chevron_right</span>
     </div>
 </div>

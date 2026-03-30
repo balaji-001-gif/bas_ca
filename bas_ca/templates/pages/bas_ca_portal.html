@@ -1,118 +1,219 @@
 {% extends "templates/web.html" %}
 
 {% block header %}
-<link rel="stylesheet" href="/assets/bas_ca/css/bas_ca_portal.css">
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+<script id="tailwind-config">
+    tailwind.config = {
+        darkMode: "class",
+        theme: {
+            extend: {
+                colors: {
+                    "on-surface": "#131b2e",
+                    "surface-tint": "#6d46bb",
+                    "surface-container-lowest": "#ffffff",
+                    "inverse-primary": "#d2bbff",
+                    "on-error": "#ffffff",
+                    "on-tertiary-container": "#e39460",
+                    "error": "#ba1a1a",
+                    "background": "#faf8ff",
+                    "surface-variant": "#dae2fd",
+                    "on-secondary-container": "#54647a",
+                    "on-primary-fixed": "#25005a",
+                    "inverse-surface": "#283044",
+                    "outline-variant": "#ccc3d4",
+                    "tertiary-fixed-dim": "#ffb688",
+                    "secondary-fixed": "#d3e4fe",
+                    "outline": "#7b7484",
+                    "primary-container": "#4a1d96",
+                    "on-secondary": "#ffffff",
+                    "on-tertiary-fixed": "#311300",
+                    "on-secondary-fixed-variant": "#38485d",
+                    "primary-fixed-dim": "#d2bbff",
+                    "tertiary-fixed": "#ffdbc7",
+                    "surface-bright": "#faf8ff",
+                    "surface-container": "#eaedff",
+                    "surface-container-low": "#f2f3ff",
+                    "on-background": "#131b2e",
+                    "on-primary-container": "#b794ff",
+                    "on-secondary-fixed": "#0b1c30",
+                    "secondary": "#505f76",
+                    "tertiary": "#421c00",
+                    "on-primary-fixed-variant": "#552ba1",
+                    "tertiary-container": "#632d00",
+                    "primary-fixed": "#eaddff",
+                    "on-tertiary-fixed-variant": "#703709",
+                    "surface-container-high": "#e2e7ff",
+                    "surface": "#faf8ff",
+                    "on-tertiary": "#ffffff",
+                    "on-primary": "#ffffff",
+                    "surface-container-highest": "#dae2fd",
+                    "inverse-on-surface": "#eef0ff",
+                    "primary": "#320075",
+                    "on-surface-variant": "#4a4452",
+                    "surface-dim": "#d2d9f4",
+                    "on-error-container": "#93000a",
+                    "secondary-fixed-dim": "#b7c8e1",
+                    "error-container": "#ffdad6",
+                    "secondary-container": "#d0e1fb"
+                },
+                fontFamily: {
+                    "headline": ["Manrope"],
+                    "body": ["Inter"],
+                    "label": ["Inter"]
+                },
+                borderRadius: {"DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem"},
+            },
+        },
+    }
+</script>
+<style>
+    .material-symbols-outlined {
+        font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+    }
+    body { font-family: 'Inter', sans-serif; }
+    h1, h2, h3 { font-family: 'Manrope', sans-serif; }
+    
+    /* Suppress Frappe default navbar/footer for full-canvas feel */
+    .navbar, footer { display: none !important; }
+    #page-content { padding: 0 !important; margin: 0 !important; max-width: 100% !important; }
+</style>
 {% endblock %}
 
 {% block page_content %}
-<div class="portal-container">
-    <!-- Header -->
-    <div class="dashboard-header animate__animated animate__fadeInDown">
-        <div class="welcome-text">
-            <p style="color: #64748b; margin-bottom: 0.25rem;">Welcome back,</p>
-            <h1>{{ client_name or "Client Dashboard" }}</h1>
+<div class="bg-background text-on-surface min-h-screen">
+    <!-- TopAppBar -->
+    <header class="w-full top-0 sticky z-40 bg-[#faf8ff] dark:bg-slate-950 flex items-center justify-between px-6 py-4 max-w-full mx-auto shadow-sm">
+        <div class="flex items-center gap-3">
+            <span class="material-symbols-outlined text-[#320075] dark:text-[#dae2fd]">account_balance</span>
+            <h1 class="text-2xl font-black text-[#320075] dark:text-[#dae2fd] tracking-tighter">Financial Vanguard</h1>
         </div>
-        <div class="quick-actions">
-            <button class="btn-premium btn-primary-gradient" onclick="frappe.set_route('compliance-tasks/new')">
-                <i class="fa fa-plus"></i> Upload Document
-            </button>
+        <div class="flex items-center gap-4">
+            <span class="material-symbols-outlined text-slate-500">search</span>
+            <div class="w-8 h-8 rounded-full bg-primary-container flex items-center justify-center text-[10px] text-white font-bold" title="User profile">
+                {{ frappe.session.user[:1].upper() }}
+            </div>
         </div>
-    </div>
+    </header>
 
-    <!-- Stats Grid -->
-    <div class="stats-grid">
-        <!-- Health Score Card -->
-        <div class="glass-card stat-card">
-            <div class="health-score-container">
-                <svg viewBox="0 0 36 36" class="circular-chart">
-                    <path class="circle-bg" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
-                    <path class="circle" style="stroke: #10b981; stroke-dasharray: {{ health_score }}, 100;" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
-                    <text x="18" y="20.35" class="percentage">{{ health_score }}%</text>
-                </svg>
+    <div class="flex">
+        <!-- NavigationDrawer (Desktop Only) -->
+        <aside class="hidden md:flex h-screen w-64 fixed left-0 top-0 bg-[#f2f3ff] dark:bg-slate-900 flex-col p-4 gap-2 pt-20">
+            <div class="px-4 mb-6">
+                <span class="text-xl font-bold text-[#320075] dark:text-white">ROC Portal</span>
             </div>
-            <div class="stat-info">
-                <h3>Compliance Score</h3>
-                <div class="value">Level: Excellent</div>
-            </div>
-        </div>
+            <nav class="flex flex-col gap-1">
+                <a class="flex items-center gap-3 px-4 py-3 bg-white dark:bg-slate-800 text-[#320075] dark:text-white rounded-lg shadow-sm transition-all duration-300 ease-in-out font-medium" href="/bas-ca-portal">
+                    <span class="material-symbols-outlined">dashboard</span> Dashboard
+                </a>
+                <a class="flex items-center gap-3 px-4 py-3 text-slate-600 dark:text-slate-400 hover:text-[#320075] transition-all duration-300 ease-in-out font-medium rounded-lg hover:bg-[#ffffff]/50" href="/compliance-tasks">
+                    <span class="material-symbols-outlined">description</span> Filing Records
+                </a>
+                <a class="flex items-center gap-3 px-4 py-3 text-slate-600 dark:text-slate-400 hover:text-[#320075] transition-all duration-300 ease-in-out font-medium rounded-lg hover:bg-[#ffffff]/50" href="/gst-returns">
+                    <span class="material-symbols-outlined">verified</span> Compliance
+                </a>
+                <a class="flex items-center gap-3 px-4 py-3 text-slate-600 dark:text-slate-400 hover:text-[#320075] transition-all duration-300 ease-in-out font-medium rounded-lg hover:bg-[#ffffff]/50" href="/me">
+                    <span class="material-symbols-outlined">settings</span> Profile
+                </a>
+            </nav>
+        </aside>
 
-        <!-- Pending Tasks Card -->
-        <div class="glass-card stat-card">
-            <div class="stat-icon bg-warning">
-                <i class="fa fa-tasks"></i>
-            </div>
-            <div class="stat-info">
-                <h3>Pending Tasks</h3>
-                <div class="value">{{ pending_tasks_count }}</div>
-            </div>
-        </div>
+        <!-- Main Content Canvas -->
+        <main class="flex-1 md:ml-64 p-4 md:p-8 mb-24 md:mb-0">
+            <header class="mb-8">
+                <h2 class="text-3xl font-extrabold tracking-tight text-primary mb-2">Welcome Back, {{ client_name }}</h2>
+                <p class="text-on-surface-variant">Manage and track your statutory compliance submissions.</p>
+            </header>
 
-        <!-- Next Deadline Card -->
-        <div class="glass-card stat-card">
-            <div class="stat-icon bg-danger">
-                <i class="fa fa-calendar-times-o"></i>
-            </div>
-            <div class="stat-info">
-                <h3>Next Deadline</h3>
-                <div class="value">{{ next_deadline or "No upcoming" }}</div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Recent Updates Section -->
-    <div class="row">
-        <div class="col-md-8">
-            <div class="glass-card">
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
-                    <h2 style="font-size: 1.25rem; font-weight: 700; margin: 0;">Recent Compliance Filings</h2>
-                    <a href="/gst-returns" class="text-muted" style="font-size: 14px;">View All</a>
+            <!-- Bento Data Visualization Area -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+                <div class="col-span-1 md:col-span-2 bg-surface-container-low rounded-2xl p-6 relative overflow-hidden shadow-sm">
+                    <div class="relative z-10">
+                        <p class="text-sm text-on-surface-variant mb-1">Compliance Health</p>
+                        <h4 class="text-4xl font-extrabold text-primary tracking-tighter">{{ health_score }}%</h4>
+                        <div class="mt-4 h-2 w-full bg-surface-container rounded-full overflow-hidden">
+                            <div class="h-full bg-primary rounded-full transition-all duration-1000" style="width: {{ health_score }}%"></div>
+                        </div>
+                    </div>
+                    <div class="absolute -right-4 -bottom-4 opacity-10">
+                        <span class="material-symbols-outlined text-9xl">verified_user</span>
+                    </div>
                 </div>
-                
-                <div class="filing-list">
+                <div class="bg-primary text-white rounded-2xl p-6 flex flex-col justify-between shadow-lg">
+                    <div>
+                        <span class="material-symbols-outlined text-3xl mb-4">bolt</span>
+                        <p class="text-sm font-medium opacity-80">Next Deadline</p>
+                        <p class="text-xl font-bold">{{ next_deadline or "No upcoming" }}</p>
+                    </div>
+                    <button class="mt-6 bg-white/10 hover:bg-white/20 transition-colors py-2 rounded-xl text-sm font-bold backdrop-blur-md">
+                        View Schedule
+                    </button>
+                </div>
+            </div>
+
+            <!-- List Container -->
+            <div class="mb-8">
+                <h3 class="text-xl font-bold text-primary mb-4 flex items-center gap-2">
+                    <span class="material-symbols-outlined">assignment</span> Recent Filings
+                </h3>
+                <div class="space-y-4 max-w-4xl">
                     {% if recent_filings %}
-                        {% for filing in recent_filings %}
-                        <div class="portal-list-item">
-                            <div class="item-main">
-                                <span class="item-title">{{ filing.task_name or filing.return_type }}</span>
-                                <span class="item-subtitle">Period: {{ filing.filing_period or filing.due_date }}</span>
+                        {% for doc in recent_filings %}
+                        <div class="group relative bg-surface-container-lowest rounded-xl p-4 flex items-center gap-4 transition-all duration-200 active:scale-[0.98] shadow-sm hover:shadow-md border-b-2 border-transparent hover:border-primary/10"
+                             onclick="window.location.href='/compliance-tasks/{{ doc.name }}'">
+                            <div class="w-12 h-12 rounded-full bg-surface-container-low flex items-center justify-center text-primary relative">
+                                <span class="material-symbols-outlined">description</span>
                             </div>
-                            <span class="badge-round {% if filing.status == 'Filed' %}badge-success{% else %}badge-warning{% endif %}">
-                                {{ filing.status }}
-                            </span>
+                            <div class="flex-1 min-w-0">
+                                <div class="flex items-center justify-between mb-1">
+                                    <h3 class="text-on-surface font-semibold truncate text-sm md:text-base leading-tight">
+                                        {{ doc.task_name or 'Compliance Filing' }}
+                                    </h3>
+                                    <span class="px-2 py-0.5 rounded-full {% if doc.status == 'Filed' %}bg-emerald-100 text-emerald-800{% else %}bg-on-tertiary-container/20 text-on-tertiary-container{% endif %} text-[10px] font-bold tracking-wider uppercase">
+                                        {{ doc.status }}
+                                    </span>
+                                </div>
+                                <div class="flex items-center gap-3 text-on-surface-variant text-[12px]">
+                                    <span class="flex items-center gap-1">
+                                        <span class="material-symbols-outlined text-[14px]">calendar_today</span>
+                                        {{ frappe.format_date(doc.filing_date or doc.due_date) }}
+                                    </span>
+                                    <span class="w-1 h-1 rounded-full bg-outline-variant"></span>
+                                    <span class="font-medium">Ref: #{{ doc.name[-6:] }}</span>
+                                </div>
+                            </div>
+                            <div class="flex items-center justify-center text-outline-variant group-hover:text-primary transition-colors">
+                                <span class="material-symbols-outlined">chevron_right</span>
+                            </div>
                         </div>
                         {% endfor %}
                     {% else %}
-                        <p class="text-muted text-center py-4">No recent filings found.</p>
+                        <p class="text-muted text-center py-8 bg-surface-container-low rounded-xl">No recent filings found.</p>
                     {% endif %}
                 </div>
             </div>
-        </div>
-
-        <div class="col-md-4">
-            <div class="glass-card bg-primary-gradient" style="color: white; border: none;">
-                <h2 style="font-size: 1.25rem; font-weight: 700; margin-bottom: 1rem; color: white;">Partner Note</h2>
-                <p style="opacity: 0.9; font-size: 14px; line-height: 1.6;">
-                    "We have initiated your ROC Annual Filing for FY 2025-26. Please ensure all signatures are provided by Friday."
-                </p>
-                <hr style="border-top-color: rgba(255,255,255,0.2);">
-                <div style="display: flex; align-items: center; gap: 0.75rem;">
-                    <div style="width: 40px; height: 40px; border-radius: 50%; background: rgba(255,255,255,0.2); display: flex; align-items: center; justify-content: center; font-weight: bold;">
-                        B
-                    </div>
-                    <div>
-                        <div style="font-weight: 600; font-size: 14px;">Basavana Gowda</div>
-                        <div style="font-size: 12px; opacity: 0.8;">Managing Partner</div>
-                    </div>
-                </div>
-            </div>
-        </div>
+        </main>
     </div>
-</div>
 
-<script>
-frappe.ready(function() {
-    // Add smooth entrance animations
-    $(".glass-card").addClass("animate__animated animate__fadeInUp");
-});
-</script>
+    <!-- BottomNavBar (Mobile Only) -->
+    <nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 pb-6 pt-3 md:hidden bg-white/70 dark:bg-slate-900/70 backdrop-blur-xl shadow-[0_-10px_30px_rgba(19,27,46,0.04)] border-t border-[#ccc3d4]/15 rounded-t-3xl text-slate-400">
+        <a class="flex flex-col items-center justify-center text-[#320075]" href="/bas-ca-portal">
+            <span class="material-symbols-outlined">home</span>
+            <span class="text-[10px] font-semibold">Home</span>
+        </a>
+        <a class="flex flex-col items-center justify-center bg-[#4A1D96] text-white rounded-xl px-4 py-1 scale-110 shadow-lg" href="/compliance-tasks">
+            <span class="material-symbols-outlined">folder_open</span>
+            <span class="text-[10px] font-semibold">Filings</span>
+        </a>
+        <a class="flex flex-col items-center justify-center" href="/gst-returns">
+            <span class="material-symbols-outlined">notifications</span>
+            <span class="text-[10px] font-semibold">Alerts</span>
+        </a>
+        <a class="flex flex-col items-center justify-center" href="/me">
+            <span class="material-symbols-outlined">person_outline</span>
+            <span class="text-[10px] font-semibold">Profile</span>
+        </a>
+    </nav>
+</div>
 {% endblock %}
