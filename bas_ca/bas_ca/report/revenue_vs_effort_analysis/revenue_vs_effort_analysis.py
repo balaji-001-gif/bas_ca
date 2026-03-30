@@ -32,32 +32,34 @@ def get_data(filters):
 
     data = []
     for eng in engagements:
-        # Get total hours from Time Log CA
-        time_logs = frappe.get_all(
-            "Time Log CA",
-            filters={"compliance_task": ["in",
-                frappe.get_all("Compliance Task",
-                    filters={"client_engagement": eng.name},
-                    pluck="name") or ["__none__"]
-            ]},
-            fields=["sum(hours) as total_hours",
-                     "sum(case when billable=1 then hours else 0 end) as billable_hours"],
-        )
+        # Get total and billable hours using SQL for aggregation
+        # We join with Compliance Task to filter by Client Engagement
+        res = frappe.db.sql("""
+            SELECT
+                SUM(hours) as total_hours,
+                SUM(CASE WHEN billable = 1 THEN hours ELSE 0 END) as billable_hours
+            FROM `tabTime Log CA` tl
+            JOIN `tabCompliance Task` ct ON tl.compliance_task = ct.name
+            WHERE ct.client_engagement = %s
+        """, (eng.name,), as_dict=True)
 
-        total_hours = flt(time_logs[0].total_hours) if time_logs else 0
-        billable_hours = flt(time_logs[0].billable_hours) if time_logs else 0
+        total_hours = flt(res[0].total_hours) if res and res[0].total_hours else 0
+        billable_hours = flt(res[0].billable_hours) if res and res[0].billable_hours else 0
 
         # Get total invoiced (from Sales Invoice if ERPNext is installed)
         total_invoiced = flt(eng.retainer_fee)
         try:
-            invoiced = frappe.db.sql(
-                """SELECT SUM(grand_total) as total FROM `tabSales Invoice`
-                WHERE customer = %s AND docstatus = 1""",
-                eng.client, as_dict=True
-            )
+            # Check if Sales Invoice table exists (ERPNext check)
+            invoiced = frappe.db.sql("""
+                SELECT SUM(grand_total) as total
+                FROM `tabSales Invoice`
+                WHERE customer = %s AND docstatus = 1
+            """, (eng.client,), as_dict=True)
+
             if invoiced and invoiced[0].total:
                 total_invoiced = flt(invoiced[0].total)
         except Exception:
+            # Standard fallback to retainer fee if ERPNext tables not found
             pass
 
         revenue_per_hour = flt(total_invoiced / billable_hours, 2) if billable_hours > 0 else 0
