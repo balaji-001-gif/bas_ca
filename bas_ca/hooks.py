@@ -233,8 +233,4 @@ fixtures = [
         "dt": "Number Card",
         "filters": [["module", "=", "Bas Ca"]],
     },
-    {
-        "dt": "Workspace",
-        "filters": [["name", "=", "Bas CA"]],
-    },
 ]
