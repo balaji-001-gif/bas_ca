@@ -275,7 +275,7 @@ body { background: #f0f2ff !important; font-family: 'Inter', sans-serif; margin:
       <a class="nav-item" href="/app">
         <span class="material-symbols-rounded">open_in_new</span> Desk View
       </a>
-      <a class="nav-item" href="/api/method/logout" style="color: #fca5a5;">
+      <a class="nav-item" href="#" onclick="doLogout()" style="color: #fca5a5;">
         <span class="material-symbols-rounded">logout</span> Sign Out
       </a>
     </nav>
@@ -611,6 +611,15 @@ function sendMessage() {
         frappe.show_alert({message: 'Message sent to your CA team!', indicator: 'green'});
         document.getElementById('client-message').value = '';
       }
+    }
+  });
+}
+// ── Logout ──
+function doLogout() {
+  frappe.call({
+    method: 'logout',
+    callback: function() {
+      window.location.href = '/login';
     }
   });
 }
