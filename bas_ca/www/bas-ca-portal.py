@@ -11,6 +11,9 @@ def get_context(context):
         frappe.local.flags.redirect_location = "/login?redirect-to=/bas-ca-portal"
         raise frappe.Redirect
 
+    # CRITICAL: Disable page caching so each user gets their own fresh data
+    context.no_cache = 1
+
     # Always inject safe defaults first
     context.update({
         "client_name": "Client Portal",
