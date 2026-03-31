@@ -436,7 +436,127 @@ def post_requirement_update(user, text):
         text=f"🌐 **Portal Update from Client:**\n\n{text}"
     )
     
-    # Optional: Notify assigned CA (if any)
-    # frappe.publish_realtime("refresh_engagement", user=doc.owner)
-    
     return "Success"
+
+
+@frappe.whitelist()
+def get_portal_full_data(user):
+    """
+    Comprehensive data aggregator for the restructured CA Client Portal.
+    Returns number cards, recent activity, pending approvals, and task list.
+    """
+    engagement_name = frappe.db.get_value(
+        "Client Engagement",
+        {"portal_user": user, "portal_access": 1},
+        "name"
+    )
+
+    if not engagement_name:
+        return {
+            "client_name": "No Active Engagement",
+            "engagement_name": None,
+            "health_score": 0,
+            "pending_tasks_count": 0,
+            "overdue_count": 0,
+            "filed_count": 0,
+            "next_deadline": "N/A",
+            "next_deadline_task": "",
+            "engagement_status": "Active",
+            "recent_activity": [],
+            "pending_approvals": [],
+            "tasks": []
+        }
+
+    engagement = frappe.get_doc("Client Engagement", engagement_name)
+
+    # Number Card 1: Pending Tasks
+    pending_tasks = frappe.get_all(
+        "Compliance Task",
+        filters={"client_engagement": engagement_name, "status": ["not in", ["Filed", "Waived"]]},
+        fields=["name", "task_name", "due_date", "status", "compliance_type", "form_number"]
+    )
+
+    # Number Card 2: Overdue Tasks
+    overdue_tasks = [t for t in pending_tasks if t.due_date and getdate(t.due_date) < getdate(today())]
+
+    # Number Card 3: Filed/Completed
+    filed_count = frappe.db.count("Compliance Task", {"client_engagement": engagement_name, "status": "Filed"})
+    total_tasks = frappe.db.count("Compliance Task", {"client_engagement": engagement_name})
+
+    # Number Card 4: Health Score
+    health_score = int((filed_count / total_tasks * 100)) if total_tasks > 0 else 100
+
+    # Number Card 5: Next Deadline
+    next_task = frappe.get_all(
+        "Compliance Task",
+        filters={"client_engagement": engagement_name, "status": ["not in", ["Filed", "Waived"]], "due_date": [">=", today()]},
+        fields=["due_date", "task_name"],
+        order_by="due_date asc",
+        limit=1
+    )
+    next_deadline = str(next_task[0].due_date) if next_task else "N/A"
+    next_deadline_task = next_task[0].task_name if next_task else ""
+
+    # Tasks list with due date color-coding
+    all_tasks = frappe.get_all(
+        "Compliance Task",
+        filters={"client_engagement": engagement_name},
+        fields=["name", "task_name", "due_date", "status", "compliance_type", "form_number", "assigned_to"],
+        order_by="due_date asc",
+        limit=20
+    )
+
+    # Pending Approvals — tasks marked "Pending Client Approval"
+    pending_approvals = frappe.get_all(
+        "Compliance Task",
+        filters={"client_engagement": engagement_name, "status": "Pending Client Approval"},
+        fields=["name", "task_name", "form_number", "due_date", "compliance_type"]
+    )
+
+    # Recent Activity — timeline comments from the engagement
+    try:
+        activity = frappe.get_all(
+            "Comment",
+            filters={"reference_doctype": "Client Engagement", "reference_name": engagement_name},
+            fields=["content", "creation", "comment_by", "comment_type"],
+            order_by="creation desc",
+            limit=8
+        )
+    except Exception:
+        activity = []
+
+    return {
+        "client_name": engagement.client,
+        "engagement_name": engagement_name,
+        "health_score": health_score,
+        "pending_tasks_count": len(pending_tasks),
+        "overdue_count": len(overdue_tasks),
+        "filed_count": filed_count,
+        "total_tasks": total_tasks,
+        "next_deadline": next_deadline,
+        "next_deadline_task": next_deadline_task,
+        "engagement_status": engagement.engagement_status or "Active",
+        "recent_activity": activity,
+        "pending_approvals": pending_approvals,
+        "tasks": all_tasks
+    }
+
+
+@frappe.whitelist()
+def approve_task(task_name):
+    """Client approves a compliance task from the portal."""
+    task = frappe.get_doc("Compliance Task", task_name)
+    task.status = "In Progress"
+    task.add_comment("Comment", text="✅ **Approved by Client via Portal**")
+    task.save(ignore_permissions=True)
+    return "Approved"
+
+
+@frappe.whitelist()
+def reject_task(task_name, reason=""):
+    """Client rejects/sends back a compliance task from the portal."""
+    task = frappe.get_doc("Compliance Task", task_name)
+    task.status = "Pending"
+    task.add_comment("Comment", text=f"❌ **Rejected by Client via Portal**\nReason: {reason}")
+    task.save(ignore_permissions=True)
+    return "Rejected"

@@ -1,272 +1,618 @@
 {% extends "templates/web.html" %}
 
-{% block header %}
-<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
-<script id="tailwind-config">
-    tailwind.config = {
-        darkMode: "class",
-        theme: {
-            extend: {
-                colors: {
-                    "on-surface": "#131b2e",
-                    "surface-tint": "#6d46bb",
-                    "surface-container-lowest": "#ffffff",
-                    "inverse-primary": "#d2bbff",
-                    "on-error": "#ffffff",
-                    "on-tertiary-container": "#e39460",
-                    "error": "#ba1a1a",
-                    "background": "#faf8ff",
-                    "surface-variant": "#dae2fd",
-                    "on-secondary-container": "#54647a",
-                    "on-primary-fixed": "#25005a",
-                    "inverse-surface": "#283044",
-                    "outline-variant": "#ccc3d4",
-                    "tertiary-fixed-dim": "#ffb688",
-                    "secondary-fixed": "#d3e4fe",
-                    "outline": "#7b7484",
-                    "primary-container": "#4a1d96",
-                    "on-secondary": "#ffffff",
-                    "on-tertiary-fixed": "#311300",
-                    "on-secondary-fixed-variant": "#38485d",
-                    "primary-fixed-dim": "#d2bbff",
-                    "tertiary-fixed": "#ffdbc7",
-                    "surface-bright": "#faf8ff",
-                    "surface-container": "#eaedff",
-                    "surface-container-low": "#f2f3ff",
-                    "on-background": "#131b2e",
-                    "on-primary-container": "#b794ff",
-                    "on-secondary-fixed": "#0b1c30",
-                    "secondary": "#505f76",
-                    "tertiary": "#421c00",
-                    "on-primary-fixed-variant": "#552ba1",
-                    "tertiary-container": "#632d00",
-                    "primary-fixed": "#eaddff",
-                    "on-tertiary-fixed-variant": "#703709",
-                    "surface-container-high": "#e2e7ff",
-                    "surface": "#faf8ff",
-                    "on-tertiary": "#ffffff",
-                    "on-primary": "#ffffff",
-                    "surface-container-highest": "#dae2fd",
-                    "inverse-on-surface": "#eef0ff",
-                    "primary": "#320075",
-                    "on-surface-variant": "#4a4452",
-                    "surface-dim": "#d2d9f4",
-                    "on-error-container": "#93000a",
-                    "secondary-fixed-dim": "#b7c8e1",
-                    "error-container": "#ffdad6",
-                    "secondary-container": "#d0e1fb"
-                },
-                fontFamily: {
-                    "headline": ["Manrope"],
-                    "body": ["Inter"],
-                    "label": ["Inter"]
-                },
-                borderRadius: {"DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem"},
-            },
-        },
-    }
-</script>
+{% block title %}Client Command Center — Financial Vanguard{% endblock %}
+
+{% block head_include %}
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0" rel="stylesheet">
 <style>
-    .material-symbols-outlined {
-        font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
-    }
-    body { font-family: 'Inter', sans-serif; }
-    h1, h2, h3 { font-family: 'Manrope', sans-serif; }
-    
-    /* Suppress Frappe default navbar/footer for full-canvas feel */
-    .navbar, footer { display: none !important; }
-    #page-content { padding: 0 !important; margin: 0 !important; max-width: 100% !important; }
+/* ── Reset for full-canvas portal ── */
+.navbar, .navbar-expand-lg, footer, .web-footer, #footer-address { display: none !important; }
+body { background: #f0f2ff !important; font-family: 'Inter', sans-serif; margin: 0; padding: 0; }
+#page-content, .container { padding: 0 !important; margin: 0 !important; max-width: 100% !important; }
+#body { padding: 0 !important; }
+
+/* ── Variables ── */
+:root {
+  --primary: #320075;
+  --primary-light: #4a1d96;
+  --primary-pale: #ede9fe;
+  --success: #059669;
+  --success-bg: #d1fae5;
+  --warning: #d97706;
+  --warning-bg: #fef3c7;
+  --danger: #dc2626;
+  --danger-bg: #fee2e2;
+  --surface: #ffffff;
+  --surface-alt: #f8f9ff;
+  --border: #e2e8f0;
+  --text: #1e293b;
+  --text-muted: #64748b;
+  --radius: 16px;
+  --shadow: 0 1px 3px rgba(0,0,0,0.08), 0 4px 16px rgba(50,0,117,0.06);
+}
+
+/* ── Layout ── */
+.portal-shell { display: flex; min-height: 100vh; }
+
+/* ── Sidebar ── */
+.portal-sidebar {
+  width: 240px; min-height: 100vh; background: var(--primary);
+  padding: 0; position: fixed; left: 0; top: 0; z-index: 100;
+  display: flex; flex-direction: column;
+}
+.sidebar-brand {
+  padding: 24px 20px 20px;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+.sidebar-brand h1 {
+  font-family: 'Manrope', sans-serif; font-size: 1.1rem; font-weight: 800;
+  color: #fff; margin: 0; letter-spacing: -0.5px;
+}
+.sidebar-brand p { color: rgba(255,255,255,0.5); font-size: 0.7rem; margin: 2px 0 0; }
+.sidebar-nav { padding: 16px 12px; flex: 1; }
+.nav-item {
+  display: flex; align-items: center; gap: 12px; padding: 10px 12px;
+  border-radius: 10px; color: rgba(255,255,255,0.65); font-size: 0.875rem;
+  font-weight: 500; text-decoration: none; cursor: pointer;
+  transition: all 0.2s; margin-bottom: 2px; border: none; background: none; width: 100%;
+}
+.nav-item:hover, .nav-item.active {
+  background: rgba(255,255,255,0.12); color: #fff;
+}
+.nav-item .material-symbols-rounded { font-size: 20px; }
+.nav-section { color: rgba(255,255,255,0.35); font-size: 0.65rem; font-weight: 700;
+  letter-spacing: 1px; text-transform: uppercase; padding: 12px 12px 6px; }
+.sidebar-footer { padding: 12px; border-top: 1px solid rgba(255,255,255,0.1); }
+
+/* ── Main Content ── */
+.portal-main { margin-left: 240px; flex: 1; padding: 32px; max-width: calc(100% - 240px); }
+
+/* ── Page Header ── */
+.page-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 28px; }
+.page-header-left h2 {
+  font-family: 'Manrope', sans-serif; font-size: 1.6rem; font-weight: 800;
+  color: var(--primary); margin: 0; letter-spacing: -0.5px;
+}
+.page-header-left p { color: var(--text-muted); font-size: 0.875rem; margin: 4px 0 0; }
+.user-chip {
+  display: flex; align-items: center; gap: 8px; background: var(--surface);
+  border: 1px solid var(--border); border-radius: 40px; padding: 6px 14px 6px 8px;
+  font-size: 0.8rem; font-weight: 500; color: var(--text);
+}
+.user-avatar {
+  width: 28px; height: 28px; border-radius: 50%; background: var(--primary);
+  color: #fff; display: flex; align-items: center; justify-content: center;
+  font-size: 0.75rem; font-weight: 700;
+}
+
+/* ── Status Badge ── */
+.badge {
+  display: inline-flex; align-items: center; padding: 3px 10px; border-radius: 20px;
+  font-size: 0.7rem; font-weight: 700; letter-spacing: 0.5px; text-transform: uppercase;
+}
+.badge-success { background: var(--success-bg); color: var(--success); }
+.badge-warning { background: var(--warning-bg); color: var(--warning); }
+.badge-danger { background: var(--danger-bg); color: var(--danger); }
+.badge-info { background: var(--primary-pale); color: var(--primary); }
+.badge-neutral { background: #f1f5f9; color: #475569; }
+
+/* ── Number Cards ── */
+.cards-grid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 16px; margin-bottom: 28px;
+}
+.num-card {
+  background: var(--surface); border-radius: var(--radius); padding: 20px;
+  box-shadow: var(--shadow); border: 1px solid var(--border);
+  transition: transform 0.2s, box-shadow 0.2s; cursor: default;
+}
+.num-card:hover { transform: translateY(-2px); box-shadow: 0 4px 24px rgba(50,0,117,0.12); }
+.num-card-icon {
+  width: 40px; height: 40px; border-radius: 10px; display: flex;
+  align-items: center; justify-content: center; margin-bottom: 12px;
+}
+.num-card-icon .material-symbols-rounded { font-size: 22px; }
+.num-card-value {
+  font-family: 'Manrope', sans-serif; font-size: 2rem; font-weight: 800;
+  line-height: 1; color: var(--text); margin-bottom: 4px;
+}
+.num-card-label { font-size: 0.78rem; color: var(--text-muted); font-weight: 500; }
+.num-card.primary-card { background: var(--primary); border-color: var(--primary); }
+.num-card.primary-card .num-card-value, .num-card.primary-card .num-card-label { color: rgba(255,255,255,0.9); }
+.num-card.primary-card .num-card-icon { background: rgba(255,255,255,0.15); color: white; }
+.card-green .num-card-icon { background: var(--success-bg); color: var(--success); }
+.card-orange .num-card-icon { background: var(--warning-bg); color: var(--warning); }
+.card-red .num-card-icon { background: var(--danger-bg); color: var(--danger); }
+.card-purple .num-card-icon { background: var(--primary-pale); color: var(--primary); }
+
+/* ── Health Bar ── */
+.health-bar-wrap { margin-top: 10px; }
+.health-bar-track { height: 6px; background: rgba(255,255,255,0.2); border-radius: 3px; overflow: hidden; }
+.health-bar-fill { height: 100%; background: rgba(255,255,255,0.9); border-radius: 3px; transition: width 1s; }
+
+/* ── Content Grid ── */
+.content-grid { display: grid; grid-template-columns: 1fr 360px; gap: 20px; }
+
+/* ── Panels ── */
+.panel {
+  background: var(--surface); border-radius: var(--radius); border: 1px solid var(--border);
+  box-shadow: var(--shadow); overflow: hidden; margin-bottom: 20px;
+}
+.panel-header {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 16px 20px; border-bottom: 1px solid var(--border);
+}
+.panel-title {
+  display: flex; align-items: center; gap: 8px;
+  font-family: 'Manrope', sans-serif; font-size: 0.95rem; font-weight: 700; color: var(--primary);
+}
+.panel-title .material-symbols-rounded { font-size: 20px; }
+.panel-body { padding: 0; }
+
+/* ── Task Rows ── */
+.task-row {
+  display: flex; align-items: center; gap: 12px; padding: 14px 20px;
+  border-bottom: 1px solid var(--border); transition: background 0.15s;
+}
+.task-row:last-child { border-bottom: none; }
+.task-row:hover { background: var(--surface-alt); }
+.task-icon {
+  width: 36px; height: 36px; border-radius: 8px; display: flex;
+  align-items: center; justify-content: center; flex-shrink: 0;
+  background: var(--primary-pale); color: var(--primary);
+}
+.task-icon .material-symbols-rounded { font-size: 18px; }
+.task-info { flex: 1; min-width: 0; }
+.task-name { font-size: 0.875rem; font-weight: 600; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.task-meta { font-size: 0.75rem; color: var(--text-muted); margin-top: 2px; }
+.task-actions { display: flex; gap: 6px; }
+.overdue-row { background: #fff8f8; }
+.overdue-row .task-icon { background: var(--danger-bg); color: var(--danger); }
+
+/* ── Approval Row ── */
+.approval-row {
+  padding: 14px 20px; border-bottom: 1px solid var(--border);
+}
+.approval-row:last-child { border-bottom: none; }
+.approval-title { font-size: 0.875rem; font-weight: 600; color: var(--text); margin-bottom: 6px; }
+.approval-meta { font-size: 0.75rem; color: var(--text-muted); margin-bottom: 10px; }
+.approval-btns { display: flex; gap: 8px; }
+
+/* ── Activity Feed ── */
+.activity-item { display: flex; gap: 12px; padding: 12px 20px; border-bottom: 1px solid var(--border); }
+.activity-item:last-child { border-bottom: none; }
+.activity-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--primary); margin-top: 5px; flex-shrink: 0; }
+.activity-content { font-size: 0.8rem; color: var(--text-muted); }
+.activity-content strong { color: var(--text); }
+
+/* ── Message Box ── */
+.message-box { padding: 20px; }
+.message-textarea {
+  width: 100%; border: 1.5px solid var(--border); border-radius: 10px; padding: 12px;
+  font-size: 0.875rem; font-family: 'Inter', sans-serif; resize: vertical; min-height: 80px;
+  outline: none; transition: border-color 0.2s; box-sizing: border-box;
+}
+.message-textarea:focus { border-color: var(--primary); }
+
+/* ── Buttons ── */
+.btn {
+  display: inline-flex; align-items: center; gap: 6px; padding: 8px 16px;
+  border-radius: 8px; font-size: 0.82rem; font-weight: 600; cursor: pointer;
+  transition: all 0.2s; border: none; text-decoration: none;
+}
+.btn-primary { background: var(--primary); color: white; }
+.btn-primary:hover { background: var(--primary-light); }
+.btn-success { background: var(--success); color: white; }
+.btn-success:hover { opacity: 0.85; }
+.btn-danger { background: transparent; color: var(--danger); border: 1.5px solid var(--danger); }
+.btn-danger:hover { background: var(--danger-bg); }
+.btn-sm { padding: 5px 10px; font-size: 0.75rem; border-radius: 6px; }
+.btn-ghost { background: var(--surface-alt); color: var(--text-muted); border: 1px solid var(--border); }
+.btn-ghost:hover { background: var(--border); }
+.btn .material-symbols-rounded { font-size: 16px; }
+
+/* ── Empty State ── */
+.empty-state { padding: 40px 20px; text-align: center; color: var(--text-muted); }
+.empty-state .material-symbols-rounded { font-size: 40px; opacity: 0.3; display: block; margin-bottom: 8px; }
+.empty-state p { font-size: 0.85rem; margin: 0; }
+
+/* ── Tabs ── */
+.tab-bar { display: flex; gap: 4px; padding: 8px; background: var(--surface-alt); border-bottom: 1px solid var(--border); }
+.tab-btn {
+  padding: 6px 14px; border-radius: 8px; font-size: 0.8rem; font-weight: 600;
+  color: var(--text-muted); cursor: pointer; border: none; background: transparent; transition: all 0.2s;
+}
+.tab-btn.active { background: var(--surface); color: var(--primary); box-shadow: 0 1px 4px rgba(0,0,0,0.06); }
+.tab-panel { display: none; }
+.tab-panel.active { display: block; }
+
+/* ── Responsive ── */
+@media (max-width: 900px) {
+  .portal-sidebar { display: none; }
+  .portal-main { margin-left: 0; max-width: 100%; padding: 16px; }
+  .content-grid { grid-template-columns: 1fr; }
+  .cards-grid { grid-template-columns: repeat(2, 1fr); }
+}
 </style>
 {% endblock %}
 
 {% block page_content %}
-<div class="bg-background text-on-surface min-h-screen">
-    <!-- TopAppBar -->
-    <header class="w-full top-0 sticky z-40 bg-[#faf8ff] dark:bg-slate-950 flex items-center justify-between px-6 py-4 max-w-full mx-auto shadow-sm">
-        <div class="flex items-center gap-3">
-            <span class="material-symbols-outlined text-[#320075] dark:text-[#dae2fd]">account_balance</span>
-            <h1 class="text-2xl font-black text-[#320075] dark:text-[#dae2fd] tracking-tighter">Financial Vanguard</h1>
-        </div>
-        <div class="flex items-center gap-4">
-            <span class="material-symbols-outlined text-slate-500">search</span>
-            <div class="w-8 h-8 rounded-full bg-primary-container flex items-center justify-center text-[10px] text-white font-bold" title="User profile">
-                {{ frappe.session.user[:1].upper() }}
-            </div>
-        </div>
-    </header>
+<div class="portal-shell">
 
-    <div class="flex">
-        <!-- NavigationDrawer (Desktop Only) -->
-        <aside class="hidden md:flex h-screen w-64 fixed left-0 top-0 bg-[#f2f3ff] dark:bg-slate-900 flex-col p-4 gap-2 pt-20">
-            <div class="px-4 mb-6">
-                <span class="text-xl font-bold text-[#320075] dark:text-white">ROC Portal</span>
-            </div>
-            <nav class="flex flex-col gap-1">
-                <a class="flex items-center gap-3 px-4 py-3 bg-white dark:bg-slate-800 text-[#320075] dark:text-white rounded-lg shadow-sm transition-all duration-300 ease-in-out font-medium" href="/bas-ca-portal">
-                    <span class="material-symbols-outlined">dashboard</span> Dashboard
-                </a>
-                <a class="flex items-center gap-3 px-4 py-3 text-slate-600 dark:text-slate-400 hover:text-[#320075] transition-all duration-300 ease-in-out font-medium rounded-lg hover:bg-[#ffffff]/50" href="/compliance-tasks">
-                    <span class="material-symbols-outlined">description</span> Filing Records
-                </a>
-                <a class="flex items-center gap-3 px-4 py-3 text-slate-600 dark:text-slate-400 hover:text-[#320075] transition-all duration-300 ease-in-out font-medium rounded-lg hover:bg-[#ffffff]/50" href="/gst-returns">
-                    <span class="material-symbols-outlined">verified</span> Compliance
-                </a>
-                <a class="flex items-center gap-3 px-4 py-3 text-slate-600 dark:text-slate-400 hover:text-[#320075] transition-all duration-300 ease-in-out font-medium rounded-lg hover:bg-[#ffffff]/50" href="/app">
-                    <span class="material-symbols-outlined">settings</span> Desk View
-                </a>
-                <a class="flex items-center gap-3 px-4 py-3 text-red-600 dark:text-red-400 hover:bg-red-50 transition-all duration-300 ease-in-out font-medium rounded-lg" href="/api/method/logout">
-                    <span class="material-symbols-outlined">logout</span> Sign Out
-                </a>
-            </nav>
-        </aside>
+  <!-- ─── SIDEBAR ─── -->
+  <aside class="portal-sidebar">
+    <div class="sidebar-brand">
+      <h1>⚖️ Financial Vanguard</h1>
+      <p>CA Practice Management</p>
+    </div>
+    <nav class="sidebar-nav">
+      <div class="nav-section">Portal</div>
+      <button class="nav-item active" onclick="showTab('dashboard')">
+        <span class="material-symbols-rounded">dashboard</span> Dashboard
+      </button>
+      <button class="nav-item" onclick="showTab('tasks')">
+        <span class="material-symbols-rounded">task_alt</span> My Tasks
+        {% if pending_tasks_count > 0 %}
+        <span style="background:rgba(255,255,255,0.2);color:#fff;border-radius:20px;padding:1px 7px;font-size:0.65rem;margin-left:auto;">{{ pending_tasks_count }}</span>
+        {% endif %}
+      </button>
+      <button class="nav-item" onclick="showTab('approvals')">
+        <span class="material-symbols-rounded">approval</span> Approvals
+        {% if pending_approvals %}
+        <span style="background:#ef4444;color:#fff;border-radius:20px;padding:1px 7px;font-size:0.65rem;margin-left:auto;">{{ pending_approvals|length }}</span>
+        {% endif %}
+      </button>
+      <button class="nav-item" onclick="showTab('activity')">
+        <span class="material-symbols-rounded">history</span> Activity
+      </button>
+      <button class="nav-item" onclick="showTab('message')">
+        <span class="material-symbols-rounded">chat</span> Message CA
+      </button>
+      <div class="nav-section">Account</div>
+      <a class="nav-item" href="/app">
+        <span class="material-symbols-rounded">open_in_new</span> Desk View
+      </a>
+      <a class="nav-item" href="/api/method/logout" style="color: #fca5a5;">
+        <span class="material-symbols-rounded">logout</span> Sign Out
+      </a>
+    </nav>
+    <div class="sidebar-footer">
+      <div class="nav-item" style="cursor:default; font-size:0.72rem; color:rgba(255,255,255,0.4);">
+        <span class="material-symbols-rounded" style="font-size:16px;">circle</span>
+        {{ client_name }}
+      </div>
+    </div>
+  </aside>
 
-        <!-- Main Content Canvas -->
-        <main class="flex-1 md:ml-64 p-4 md:p-8 mb-24 md:mb-0">
-            <header class="mb-8">
-                <h2 class="text-3xl font-extrabold tracking-tight text-primary mb-2">Welcome Back, {{ client_name }}</h2>
-                <p class="text-on-surface-variant">Manage and track your statutory compliance submissions.</p>
-            </header>
+  <!-- ─── MAIN ─── -->
+  <main class="portal-main">
 
-            <!-- Bento Data Visualization Area -->
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
-                <div class="col-span-1 md:col-span-2 bg-surface-container-low rounded-2xl p-6 relative overflow-hidden shadow-sm">
-                    <div class="relative z-10">
-                        <p class="text-sm text-on-surface-variant mb-1">Compliance Health</p>
-                        <h4 class="text-4xl font-extrabold text-primary tracking-tighter">{{ health_score }}%</h4>
-                        <div class="mt-4 h-2 w-full bg-surface-container rounded-full overflow-hidden">
-                            <div class="h-full bg-primary rounded-full transition-all duration-1000" style="width: {{ health_score }}%"></div>
-                        </div>
-                    </div>
-                    <div class="absolute -right-4 -bottom-4 opacity-10">
-                        <span class="material-symbols-outlined text-9xl">verified_user</span>
-                    </div>
-                </div>
-                <div class="bg-primary text-white rounded-2xl p-6 flex flex-col justify-between shadow-lg">
-                    <div>
-                        <span class="material-symbols-outlined text-3xl mb-4">bolt</span>
-                        <p class="text-sm font-medium opacity-80">Next Deadline</p>
-                        <p class="text-xl font-bold">{{ next_deadline or "No upcoming" }}</p>
-                    </div>
-                    <button class="mt-6 bg-white/10 hover:bg-white/20 transition-colors py-2 rounded-xl text-sm font-bold backdrop-blur-md">
-                        View Schedule
-                    </button>
-                </div>
-            </div>
-
-            <!-- List Container -->
-            <div class="mb-8">
-                <h3 class="text-xl font-bold text-primary mb-4 flex items-center gap-2">
-                    <span class="material-symbols-outlined">assignment</span> Recent Filings
-                </h3>
-                <div class="space-y-4 max-w-4xl">
-                    {% if recent_filings %}
-                        {% for doc in recent_filings %}
-                        <div class="group relative bg-surface-container-lowest rounded-xl p-4 flex items-center gap-4 transition-all duration-200 active:scale-[0.98] shadow-sm hover:shadow-md border-b-2 border-transparent hover:border-primary/10"
-                             onclick="window.location.href='/compliance-tasks/{{ doc.name }}'">
-                            <div class="w-12 h-12 rounded-full bg-surface-container-low flex items-center justify-center text-primary relative">
-                                <span class="material-symbols-outlined">description</span>
-                            </div>
-                            <div class="flex-1 min-w-0">
-                                <div class="flex items-center justify-between mb-1">
-                                    <h3 class="text-on-surface font-semibold truncate text-sm md:text-base leading-tight">
-                                        {{ doc.task_name or 'Compliance Filing' }}
-                                    </h3>
-                                    <span class="px-2 py-0.5 rounded-full {% if doc.status == 'Filed' %}bg-emerald-100 text-emerald-800{% else %}bg-on-tertiary-container/20 text-on-tertiary-container{% endif %} text-[10px] font-bold tracking-wider uppercase">
-                                        {{ doc.status }}
-                                    </span>
-                                </div>
-                                <div class="flex items-center gap-3 text-on-surface-variant text-[12px]">
-                                    <span class="flex items-center gap-1">
-                                        <span class="material-symbols-outlined text-[14px]">calendar_today</span>
-                                        {{ frappe.format_date(doc.filing_date or doc.due_date) }}
-                                    </span>
-                                    <span class="w-1 h-1 rounded-full bg-outline-variant"></span>
-                                    <span class="font-medium">Ref: #{{ doc.name[-6:] }}</span>
-                                </div>
-                            </div>
-                            <div class="flex items-center justify-center text-outline-variant group-hover:text-primary transition-colors">
-                                <span class="material-symbols-outlined">chevron_right</span>
-                            </div>
-                        </div>
-                        {% endfor %}
-                    {% else %}
-                        <p class="text-muted text-center py-8 bg-surface-container-low rounded-xl">No recent filings found.</p>
-                    {% endif %}
-                </div>
-            </div>
-
-            <!-- Requirement Update Tool -->
-            <div class="mt-12 bg-white rounded-2xl p-6 shadow-sm border border-slate-100 max-w-4xl">
-                <div class="flex items-center gap-3 mb-4">
-                    <span class="material-symbols-outlined text-primary">edit_note</span>
-                    <h3 class="text-xl font-bold text-primary">Requirement Update</h3>
-                </div>
-                <p class="text-sm text-slate-600 mb-4">Type any note, requirement, or query for your compliance manager. We will act on it immediately.</p>
-                <div class="space-y-4">
-                    <textarea id="requirement-text" rows="3" class="w-full rounded-xl border-slate-200 focus:border-primary focus:ring-primary shadow-sm" placeholder="e.g. Uploaded GST sales data for Oct, please check."></textarea>
-                    <div class="flex justify-end">
-                        <button id="submit-update" class="px-6 py-2 bg-primary text-white font-bold rounded-xl hover:bg-primary-container transition-all flex items-center gap-2">
-                             <span class="material-symbols-outlined text-sm">send</span> Submit Update
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </main>
+    <!-- Page Header -->
+    <div class="page-header">
+      <div class="page-header-left">
+        <h2>Welcome, {{ client_name }}</h2>
+        <p>Compliance dashboard — {{ engagement_status }} Engagement</p>
+      </div>
+      <div class="user-chip">
+        <div class="user-avatar">{{ frappe.session.user[0].upper() }}</div>
+        {{ frappe.session.user }}
+      </div>
     </div>
 
-    <!-- BottomNavBar (Mobile Only) -->
-    <nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 pb-6 pt-3 md:hidden bg-white/70 dark:bg-slate-900/70 backdrop-blur-xl shadow-[0_-10px_30px_rgba(19,27,46,0.04)] border-t border-[#ccc3d4]/15 rounded-t-3xl text-slate-400">
-        <a class="flex flex-col items-center justify-center text-[#320075]" href="/bas-ca-portal">
-            <span class="material-symbols-outlined">home</span>
-            <span class="text-[10px] font-semibold">Home</span>
-        </a>
-        <a class="flex flex-col items-center justify-center bg-[#4A1D96] text-white rounded-xl px-4 py-1 scale-110 shadow-lg" href="/compliance-tasks">
-            <span class="material-symbols-outlined">folder_open</span>
-            <span class="text-[10px] font-semibold">Filings</span>
-        </a>
-        <a class="flex flex-col items-center justify-center" href="/gst-returns">
-            <span class="material-symbols-outlined">notifications</span>
-            <span class="text-[10px] font-semibold">Alerts</span>
-        </a>
-        <a class="flex flex-col items-center justify-center" href="/me">
-            <span class="material-symbols-outlined">person_outline</span>
-            <span class="text-[10px] font-semibold">Profile</span>
-        </a>
-    </nav>
+    <!-- ─── NUMBER CARDS ─── -->
+    <div class="cards-grid" id="dashboard-section">
+      <!-- Health Score -->
+      <div class="num-card primary-card">
+        <div class="num-card-icon">
+          <span class="material-symbols-rounded">verified_user</span>
+        </div>
+        <div class="num-card-value">{{ health_score }}%</div>
+        <div class="num-card-label">Compliance Health</div>
+        <div class="health-bar-wrap">
+          <div class="health-bar-track">
+            <div class="health-bar-fill" style="width: {{ health_score }}%"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Pending Tasks -->
+      <div class="num-card card-orange" onclick="showTab('tasks')" style="cursor:pointer;">
+        <div class="num-card-icon">
+          <span class="material-symbols-rounded">pending_actions</span>
+        </div>
+        <div class="num-card-value">{{ pending_tasks_count }}</div>
+        <div class="num-card-label">Pending Tasks</div>
+      </div>
+
+      <!-- Overdue -->
+      <div class="num-card card-red" onclick="showTab('tasks')" style="cursor:pointer;">
+        <div class="num-card-icon">
+          <span class="material-symbols-rounded">warning</span>
+        </div>
+        <div class="num-card-value">{{ overdue_count }}</div>
+        <div class="num-card-label">Overdue Filings</div>
+      </div>
+
+      <!-- Filed -->
+      <div class="num-card card-green">
+        <div class="num-card-icon">
+          <span class="material-symbols-rounded">check_circle</span>
+        </div>
+        <div class="num-card-value">{{ filed_count }}</div>
+        <div class="num-card-label">Completed Filings</div>
+      </div>
+
+      <!-- Approvals Pending -->
+      <div class="num-card card-purple" onclick="showTab('approvals')" style="cursor:pointer;">
+        <div class="num-card-icon">
+          <span class="material-symbols-rounded">approval</span>
+        </div>
+        <div class="num-card-value">{{ pending_approvals|length }}</div>
+        <div class="num-card-label">Needs Your Approval</div>
+      </div>
+
+      <!-- Next Deadline -->
+      <div class="num-card card-purple">
+        <div class="num-card-icon">
+          <span class="material-symbols-rounded">event</span>
+        </div>
+        <div class="num-card-value" style="font-size:1.1rem; padding-top:4px;">{{ next_deadline }}</div>
+        <div class="num-card-label">{{ next_deadline_task or "Next Deadline" }}</div>
+      </div>
+    </div>
+
+    <!-- ─── CONTENT GRID ─── -->
+    <div class="content-grid">
+
+      <!-- LEFT COLUMN -->
+      <div>
+
+        <!-- TASKS TAB -->
+        <div class="panel" id="tasks-section">
+          <div class="panel-header">
+            <div class="panel-title">
+              <span class="material-symbols-rounded">task_alt</span>
+              Compliance Tasks
+            </div>
+            <span class="badge badge-info">{{ total_tasks }} total</span>
+          </div>
+          <div class="tab-bar">
+            <button class="tab-btn active" onclick="filterTasks('all', this)">All</button>
+            <button class="tab-btn" onclick="filterTasks('Pending', this)">Pending</button>
+            <button class="tab-btn" onclick="filterTasks('Filed', this)">Filed</button>
+            <button class="tab-btn" onclick="filterTasks('overdue', this)">Overdue</button>
+          </div>
+          <div class="panel-body" id="tasks-list">
+            {% if tasks %}
+              {% for task in tasks %}
+              {% set is_overdue = task.due_date and task.due_date < frappe.utils.today() and task.status not in ['Filed', 'Waived'] %}
+              <div class="task-row {% if is_overdue %}overdue-row{% endif %}"
+                   data-status="{{ task.status }}"
+                   data-overdue="{{ 'true' if is_overdue else 'false' }}">
+                <div class="task-icon">
+                  <span class="material-symbols-rounded">
+                    {% if task.status == 'Filed' %}check_circle{% elif is_overdue %}error{% else %}description{% endif %}
+                  </span>
+                </div>
+                <div class="task-info">
+                  <div class="task-name">{{ task.task_name }}</div>
+                  <div class="task-meta">
+                    {{ task.form_number or task.compliance_type or '' }}
+                    {% if task.due_date %} · Due {{ task.due_date }}{% endif %}
+                    {% if task.assigned_to %} · CA: {{ task.assigned_to.split('@')[0] }}{% endif %}
+                  </div>
+                </div>
+                <span class="badge {% if task.status == 'Filed' %}badge-success{% elif is_overdue %}badge-danger{% elif task.status == 'In Progress' %}badge-warning{% elif task.status == 'Pending Client Approval' %}badge-info{% else %}badge-neutral{% endif %}">
+                  {% if is_overdue %}Overdue{% else %}{{ task.status }}{% endif %}
+                </span>
+              </div>
+              {% endfor %}
+            {% else %}
+              <div class="empty-state">
+                <span class="material-symbols-rounded">task_alt</span>
+                <p>No tasks yet. Your CA will assign them soon.</p>
+              </div>
+            {% endif %}
+          </div>
+        </div>
+
+        <!-- APPROVALS SECTION -->
+        <div class="panel" id="approvals-section">
+          <div class="panel-header">
+            <div class="panel-title">
+              <span class="material-symbols-rounded">approval</span>
+              Pending Your Approval
+            </div>
+            {% if pending_approvals %}
+            <span class="badge badge-danger">{{ pending_approvals|length }} action needed</span>
+            {% endif %}
+          </div>
+          <div class="panel-body">
+            {% if pending_approvals %}
+              {% for item in pending_approvals %}
+              <div class="approval-row" id="approval-{{ item.name }}">
+                <div class="approval-title">{{ item.task_name }}</div>
+                <div class="approval-meta">
+                  {{ item.form_number or item.compliance_type }} · Due {{ item.due_date or 'N/A' }}
+                </div>
+                <div class="approval-btns">
+                  <button class="btn btn-success btn-sm" onclick="approveTask('{{ item.name }}')">
+                    <span class="material-symbols-rounded">check</span> Approve
+                  </button>
+                  <button class="btn btn-danger btn-sm" onclick="rejectTask('{{ item.name }}')">
+                    <span class="material-symbols-rounded">close</span> Send Back
+                  </button>
+                </div>
+              </div>
+              {% endfor %}
+            {% else %}
+              <div class="empty-state">
+                <span class="material-symbols-rounded">approval</span>
+                <p>No pending approvals. You're all caught up!</p>
+              </div>
+            {% endif %}
+          </div>
+        </div>
+
+      </div><!-- /LEFT -->
+
+      <!-- RIGHT COLUMN -->
+      <div>
+
+        <!-- MESSAGE CA -->
+        <div class="panel">
+          <div class="panel-header">
+            <div class="panel-title">
+              <span class="material-symbols-rounded">chat</span>
+              Message Your CA
+            </div>
+          </div>
+          <div class="message-box">
+            <p style="font-size:0.8rem;color:var(--text-muted);margin:0 0 10px;">
+              Send a note, query, or document update to your compliance team.
+            </p>
+            <textarea class="message-textarea" id="client-message"
+              placeholder="e.g. I've uploaded my GST sales data for April. Please review."></textarea>
+            <div style="display:flex;justify-content:flex-end;margin-top:10px;">
+              <button class="btn btn-primary" id="send-msg-btn" onclick="sendMessage()">
+                <span class="material-symbols-rounded">send</span>
+                Send Message
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- ACTIVITY FEED -->
+        <div class="panel">
+          <div class="panel-header">
+            <div class="panel-title">
+              <span class="material-symbols-rounded">history</span>
+              Recent Activity
+            </div>
+          </div>
+          <div class="panel-body">
+            {% if recent_activity %}
+              {% for item in recent_activity %}
+              <div class="activity-item">
+                <div class="activity-dot"></div>
+                <div class="activity-content">
+                  <strong>{{ item.comment_by.split('@')[0] if item.comment_by else 'System' }}</strong>
+                  — {{ item.content[:100] | striptags }}{% if item.content|length > 100 %}...{% endif %}
+                  <div style="margin-top:3px;font-size:0.7rem;color:#94a3b8;">
+                    {{ frappe.format_date(item.creation) }}
+                  </div>
+                </div>
+              </div>
+              {% endfor %}
+            {% else %}
+              <div class="empty-state">
+                <span class="material-symbols-rounded">history</span>
+                <p>No activity yet. Your CA will post updates here.</p>
+              </div>
+            {% endif %}
+          </div>
+        </div>
+
+      </div><!-- /RIGHT -->
+    </div><!-- /content-grid -->
+  </main>
 </div>
 
 <script>
-frappe.ready(function() {
-    // Add smooth entrance animations
-    $(".glass-card, .bg-white").addClass("animate__animated animate__fadeInUp");
+// ── Tab Navigation ──
+function showTab(tab) {
+  const sections = ['dashboard', 'tasks', 'approvals', 'activity', 'message'];
+  // Just scroll to the relevant section
+  const navItems = document.querySelectorAll('.nav-item');
+  navItems.forEach(n => n.classList.remove('active'));
+  event.target.closest('.nav-item').classList.add('active');
 
-    // Handle Requirement Update Submission
-    $('#submit-update').on('click', function() {
-        const text = $('#requirement-text').val();
-        if(!text) {
-            frappe.show_alert({message: "Please enter a requirement or note", indicator: "orange"});
-            return;
+  if (tab === 'approvals') {
+    document.getElementById('approvals-section').scrollIntoView({behavior:'smooth'});
+  } else if (tab === 'tasks') {
+    document.getElementById('tasks-section').scrollIntoView({behavior:'smooth'});
+  } else if (tab === 'message') {
+    document.getElementById('client-message').focus();
+  } else {
+    window.scrollTo({top: 0, behavior:'smooth'});
+  }
+}
+
+// ── Task Filter ──
+function filterTasks(filter, btn) {
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.task-row').forEach(row => {
+    const status = row.dataset.status;
+    const overdue = row.dataset.overdue === 'true';
+    if (filter === 'all') row.style.display = '';
+    else if (filter === 'overdue') row.style.display = overdue ? '' : 'none';
+    else row.style.display = status === filter ? '' : 'none';
+  });
+}
+
+// ── Approve Task ──
+function approveTask(taskName) {
+  frappe.call({
+    method: 'bas_ca.bas_ca.api.approve_task',
+    args: {task_name: taskName},
+    callback: function(r) {
+      if (!r.exc) {
+        frappe.show_alert({message: 'Task approved successfully!', indicator: 'green'});
+        document.getElementById('approval-' + taskName).style.background = '#f0fdf4';
+        document.getElementById('approval-' + taskName).querySelector('.approval-btns').innerHTML =
+          '<span class="badge badge-success" style="font-size:0.8rem;">✓ Approved</span>';
+      }
+    }
+  });
+}
+
+// ── Reject Task ──
+function rejectTask(taskName) {
+  frappe.prompt({
+    fieldname: 'reason', label: 'Reason for sending back', fieldtype: 'Small Text', reqd: 1
+  }, function(values) {
+    frappe.call({
+      method: 'bas_ca.bas_ca.api.reject_task',
+      args: {task_name: taskName, reason: values.reason},
+      callback: function(r) {
+        if (!r.exc) {
+          frappe.show_alert({message: 'Task sent back to CA', indicator: 'orange'});
+          document.getElementById('approval-' + taskName).style.background = '#fff8f8';
+          document.getElementById('approval-' + taskName).querySelector('.approval-btns').innerHTML =
+            '<span class="badge badge-danger" style="font-size:0.8rem;">✗ Sent Back</span>';
         }
-
-        $(this).attr('disabled', true).html('<i class="fa fa-spinner fa-spin"></i> Sending...');
-
-        frappe.call({
-            method: "bas_ca.bas_ca.api.post_requirement_update",
-            args: {
-                user: frappe.session.user,
-                text: text
-            },
-            callback: function(r) {
-                $('#submit-update').attr('disabled', false).html('<span class="material-symbols-outlined text-sm">send</span> Submit Update');
-                if(!r.exc) {
-                    frappe.show_alert({message: "Update sent to your Compliance Manager", indicator: "green"});
-                    $('#requirement-text').val('');
-                }
-            }
-        });
+      }
     });
-});
+  }, 'Send Back to CA', 'Submit');
+}
+
+// ── Send Message ──
+function sendMessage() {
+  const text = document.getElementById('client-message').value;
+  if (!text.trim()) {
+    frappe.show_alert({message: 'Please enter a message', indicator: 'orange'});
+    return;
+  }
+  const btn = document.getElementById('send-msg-btn');
+  btn.disabled = true;
+  btn.innerHTML = '<span class="material-symbols-rounded">sync</span> Sending...';
+
+  frappe.call({
+    method: 'bas_ca.bas_ca.api.post_requirement_update',
+    args: {user: frappe.session.user, text: text},
+    callback: function(r) {
+      btn.disabled = false;
+      btn.innerHTML = '<span class="material-symbols-rounded">send</span> Send Message';
+      if (!r.exc) {
+        frappe.show_alert({message: 'Message sent to your CA team!', indicator: 'green'});
+        document.getElementById('client-message').value = '';
+      }
+    }
+  });
+}
 </script>
 {% endblock %}
