@@ -255,14 +255,14 @@ body { background: #f0f2ff !important; font-family: 'Inter', sans-serif; margin:
       </button>
       <button class="nav-item" onclick="showTab('tasks')">
         <span class="material-symbols-rounded">task_alt</span> My Tasks
-        {% if pending_tasks_count > 0 %}
-        <span style="background:rgba(255,255,255,0.2);color:#fff;border-radius:20px;padding:1px 7px;font-size:0.65rem;margin-left:auto;">{{ pending_tasks_count }}</span>
+        {% if pending_tasks_count | default(0) > 0 %}
+        <span style="background:rgba(255,255,255,0.2);color:#fff;border-radius:20px;padding:1px 7px;font-size:0.65rem;margin-left:auto;">{{ pending_tasks_count | default(0) }}</span>
         {% endif %}
       </button>
       <button class="nav-item" onclick="showTab('approvals')">
         <span class="material-symbols-rounded">approval</span> Approvals
-        {% if pending_approvals %}
-        <span style="background:#ef4444;color:#fff;border-radius:20px;padding:1px 7px;font-size:0.65rem;margin-left:auto;">{{ pending_approvals|length }}</span>
+        {% if pending_approvals | default([]) %}
+        <span style="background:#ef4444;color:#fff;border-radius:20px;padding:1px 7px;font-size:0.65rem;margin-left:auto;">{{ (pending_approvals | default([]))|length }}</span>
         {% endif %}
       </button>
       <button class="nav-item" onclick="showTab('activity')">
@@ -282,7 +282,7 @@ body { background: #f0f2ff !important; font-family: 'Inter', sans-serif; margin:
     <div class="sidebar-footer">
       <div class="nav-item" style="cursor:default; font-size:0.72rem; color:rgba(255,255,255,0.4);">
         <span class="material-symbols-rounded" style="font-size:16px;">circle</span>
-        {{ client_name }}
+        {{ client_name | default('Portal') }}
       </div>
     </div>
   </aside>
@@ -293,8 +293,8 @@ body { background: #f0f2ff !important; font-family: 'Inter', sans-serif; margin:
     <!-- Page Header -->
     <div class="page-header">
       <div class="page-header-left">
-        <h2>Welcome, {{ client_name }}</h2>
-        <p>Compliance dashboard — {{ engagement_status }} Engagement</p>
+        <h2>Welcome, {{ client_name | default('Client') }}</h2>
+        <p>Compliance dashboard — {{ engagement_status | default('Active') }} Engagement</p>
       </div>
       <div class="user-chip">
         <div class="user-avatar">{{ frappe.session.user[0].upper() }}</div>
@@ -309,11 +309,11 @@ body { background: #f0f2ff !important; font-family: 'Inter', sans-serif; margin:
         <div class="num-card-icon">
           <span class="material-symbols-rounded">verified_user</span>
         </div>
-        <div class="num-card-value">{{ health_score }}%</div>
+        <div class="num-card-value">{{ health_score | default(0) }}%</div>
         <div class="num-card-label">Compliance Health</div>
         <div class="health-bar-wrap">
           <div class="health-bar-track">
-            <div class="health-bar-fill" style="width: {{ health_score }}%"></div>
+            <div class="health-bar-fill" style="width: {{ health_score | default(0) }}%"></div>
           </div>
         </div>
       </div>
@@ -323,7 +323,7 @@ body { background: #f0f2ff !important; font-family: 'Inter', sans-serif; margin:
         <div class="num-card-icon">
           <span class="material-symbols-rounded">pending_actions</span>
         </div>
-        <div class="num-card-value">{{ pending_tasks_count }}</div>
+        <div class="num-card-value">{{ pending_tasks_count | default(0) }}</div>
         <div class="num-card-label">Pending Tasks</div>
       </div>
 
@@ -332,7 +332,7 @@ body { background: #f0f2ff !important; font-family: 'Inter', sans-serif; margin:
         <div class="num-card-icon">
           <span class="material-symbols-rounded">warning</span>
         </div>
-        <div class="num-card-value">{{ overdue_count }}</div>
+        <div class="num-card-value">{{ overdue_count | default(0) }}</div>
         <div class="num-card-label">Overdue Filings</div>
       </div>
 
@@ -341,7 +341,7 @@ body { background: #f0f2ff !important; font-family: 'Inter', sans-serif; margin:
         <div class="num-card-icon">
           <span class="material-symbols-rounded">check_circle</span>
         </div>
-        <div class="num-card-value">{{ filed_count }}</div>
+        <div class="num-card-value">{{ filed_count | default(0) }}</div>
         <div class="num-card-label">Completed Filings</div>
       </div>
 
@@ -350,7 +350,7 @@ body { background: #f0f2ff !important; font-family: 'Inter', sans-serif; margin:
         <div class="num-card-icon">
           <span class="material-symbols-rounded">approval</span>
         </div>
-        <div class="num-card-value">{{ pending_approvals|length }}</div>
+        <div class="num-card-value">{{ (pending_approvals | default([]))|length }}</div>
         <div class="num-card-label">Needs Your Approval</div>
       </div>
 
@@ -359,8 +359,8 @@ body { background: #f0f2ff !important; font-family: 'Inter', sans-serif; margin:
         <div class="num-card-icon">
           <span class="material-symbols-rounded">event</span>
         </div>
-        <div class="num-card-value" style="font-size:1.1rem; padding-top:4px;">{{ next_deadline }}</div>
-        <div class="num-card-label">{{ next_deadline_task or "Next Deadline" }}</div>
+        <div class="num-card-value" style="font-size:1.1rem; padding-top:4px;">{{ next_deadline | default('N/A') }}</div>
+        <div class="num-card-label">{{ (next_deadline_task | default('')) or 'Next Deadline' }}</div>
       </div>
     </div>
 
@@ -377,7 +377,7 @@ body { background: #f0f2ff !important; font-family: 'Inter', sans-serif; margin:
               <span class="material-symbols-rounded">task_alt</span>
               Compliance Tasks
             </div>
-            <span class="badge badge-info">{{ total_tasks }} total</span>
+            <span class="badge badge-info">{{ total_tasks | default(0) }} total</span>
           </div>
           <div class="tab-bar">
             <button class="tab-btn active" onclick="filterTasks('all', this)">All</button>
@@ -386,8 +386,8 @@ body { background: #f0f2ff !important; font-family: 'Inter', sans-serif; margin:
             <button class="tab-btn" onclick="filterTasks('overdue', this)">Overdue</button>
           </div>
           <div class="panel-body" id="tasks-list">
-            {% if tasks %}
-              {% for task in tasks %}
+            {% if tasks | default([]) %}
+              {% for task in tasks | default([]) %}
               {% set is_overdue = task.due_date and task.due_date < frappe.utils.today() and task.status not in ['Filed', 'Waived'] %}
               <div class="task-row {% if is_overdue %}overdue-row{% endif %}"
                    data-status="{{ task.status }}"
@@ -427,12 +427,12 @@ body { background: #f0f2ff !important; font-family: 'Inter', sans-serif; margin:
               Pending Your Approval
             </div>
             {% if pending_approvals %}
-            <span class="badge badge-danger">{{ pending_approvals|length }} action needed</span>
+            <span class="badge badge-danger">{{ (pending_approvals | default([]))|length }} action needed</span>
             {% endif %}
           </div>
           <div class="panel-body">
             {% if pending_approvals %}
-              {% for item in pending_approvals %}
+              {% for item in pending_approvals | default([]) %}
               <div class="approval-row" id="approval-{{ item.name }}">
                 <div class="approval-title">{{ item.task_name }}</div>
                 <div class="approval-meta">
@@ -494,8 +494,8 @@ body { background: #f0f2ff !important; font-family: 'Inter', sans-serif; margin:
             </div>
           </div>
           <div class="panel-body">
-            {% if recent_activity %}
-              {% for item in recent_activity %}
+            {% if recent_activity | default([]) %}
+              {% for item in recent_activity | default([]) %}
               <div class="activity-item">
                 <div class="activity-dot"></div>
                 <div class="activity-content">
