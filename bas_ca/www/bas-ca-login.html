@@ -89,22 +89,51 @@
 </div>
 
 <script>
-    document.getElementById('login-form').addEventListener('submit', function(e) {
-        e.preventDefault();
-        const usr = document.getElementById('usr').value;
-        const pwd = document.getElementById('pwd').value;
-        
-        frappe.call({
-            method: "login",
-            args: {
-                usr: usr,
-                pwd: pwd
-            },
-            callback: function(r) {
-                if(r.message == "Logged In") {
-                    window.location.href = "/bas-ca-portal";
+    frappe.ready(function() {
+        const login_form = document.getElementById('login-form');
+        const login_btn = document.querySelector('button[type="submit"]');
+
+        login_form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const usr = document.getElementById('usr').value;
+            const pwd = document.getElementById('pwd').value;
+            
+            if(!usr || !pwd) return;
+
+            // Visual Feedback
+            login_btn.disabled = true;
+            login_btn.innerHTML = '<span class="material-symbols-outlined animate-spin text-sm">sync</span> Verifying...';
+
+            frappe.call({
+                method: "login",
+                args: {
+                    usr: usr,
+                    pwd: pwd
+                },
+                callback: function(r) {
+                    if (r.message == "Logged In") {
+                        frappe.show_alert({message: "Access Granted!", indicator: "green"});
+                        setTimeout(() => {
+                            window.location.href = "/bas-ca-portal";
+                        }, 1000);
+                    } else {
+                        // Error handling
+                        login_btn.disabled = false;
+                        login_btn.innerHTML = 'Sign in to Dashboard';
+                        frappe.msgprint({
+                            title: "Authentication Failed",
+                            message: "Please check your email and password.",
+                            indicator: "red"
+                        });
+                    }
+                },
+                error: function() {
+                    login_btn.disabled = false;
+                    login_btn.innerHTML = 'Sign in to Dashboard';
+                    frappe.show_alert({message: "Server Error during login", indicator: "red"});
                 }
-            }
+            });
         });
     });
 </script>
