@@ -120,11 +120,16 @@
             })
             .then(res => res.json())
             .then(r => {
-                if (r.message == "Logged In") {
-                    frappe.show_alert({message: "Success! Redirecting...", indicator: "green"});
+                // FORCE REDIRECT: Redirect regardless of 'home_page' value if session is established
+                if (r.message == "Logged In" || (r.home_page && r.home_page !== "No App")) {
+                    frappe.show_alert({message: "Access Granted! Redirecting...", indicator: "green"});
                     setTimeout(() => {
-                        window.location.href = r.home_page || "/bas-ca-portal";
-                    }, 800);
+                        window.location.href = "/bas-ca-portal";
+                    }, 500);
+                } else if (r.message == "No App") {
+                    // Specific fix for the 'No App' edge case: Force through!
+                    frappe.show_alert({message: "Success! Portal Loading...", indicator: "green"});
+                    window.location.href = "/bas-ca-portal";
                 } else {
                     login_btn.disabled = false;
                     login_btn.innerHTML = 'Sign in to Dashboard';
