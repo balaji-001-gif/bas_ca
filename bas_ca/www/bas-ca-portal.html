@@ -511,15 +511,24 @@ body { background: #f0f2ff !important; font-family: 'Inter', sans-serif; margin:
               <div class="empty-state">
                 <span class="material-symbols-rounded">history</span>
                 <p>No activity yet. Your CA will post updates here.</p>
-              </div>
-            {% endif %}
-          </div>
-        </div>
-
       </div><!-- /RIGHT -->
     </div><!-- /content-grid -->
   </main>
 </div>
+
+  <!-- Debug Info (Visible to Admin or for Troubleshooting) -->
+  {% if frappe.session.user == 'Administrator' or not tasks %}
+  <div style="margin-top: 50px; padding: 20px; border-top: 1px solid #eee; font-family: monospace; font-size: 12px; color: #666; background: #fafafa;">
+    <h4 style="margin-top: 0;">🔧 System Diagnostic Info</h4>
+    <p><strong>Current User:</strong> {{ debug_info.user if debug_info else frappe.session.user }}</p>
+    <p><strong>Engagement Found:</strong> {{ debug_info.engagement_found if debug_info else 'None' }}</p>
+    <p><strong>Portal Access On:</strong> {{ debug_info.portal_access_on if debug_info else 'Unknown' }}</p>
+    <p><strong>Roles:</strong> {{ debug_info.roles | join(', ') if debug_info else 'Unknown' }}</p>
+    {% if access_denied %}
+    <p style="color: red; font-weight: bold;">⚠️ ACCESS DENIED: The "Portal Access" checkbox is OFF for this engagement.</p>
+    {% endif %}
+  </div>
+  {% endif %}
 
 <script>
 // ── Tab Navigation ──

@@ -33,11 +33,18 @@ def get_context(context):
 
     try:
         user = frappe.session.user
+        access_denied = False
+        debug_info = {
+            "user": user,
+            "engagement_found": None,
+            "portal_access_on": None,
+            "roles": frappe.get_roles(user)
+        }
 
-        # Find Client Engagement linked to this user
+        # 1. Try to find the engagement by user email ONLY (ignore access for now)
         engagement_name = frappe.db.get_value(
             "Client Engagement",
-            {"portal_user": user, "portal_access": 1},
+            {"portal_user": user},
             "name"
         )
 
@@ -47,13 +54,26 @@ def get_context(context):
             if engagement_name:
                 frappe.msgprint("Note: Showing first active engagement for Administrator testing.")
 
-        if not engagement_name:
-            context.client_name = "Guest / Unlinked User"
+        if engagement_name:
+            debug_info["engagement_found"] = engagement_name
+            # Check if portal access is actually on
+            access_on = frappe.db.get_value("Client Engagement", engagement_name, "portal_access")
+            debug_info["portal_access_on"] = bool(access_on)
+            
+            if not access_on:
+                access_denied = True
+        
+        context.access_denied = access_denied
+        context.debug_info = debug_info
+
+        if not engagement_name or access_denied:
+            context.client_name = "Guest / Unlinked User" if not engagement_name else "Access Pending"
             context.engagement_status = "No Active"
             context.show_sidebar = False
             context.no_breadcrumbs = True
             context.title = "Client Command Center"
-            frappe.msgprint("Your account is not yet linked to a Client Engagement. Please contact your CA.")
+            if access_denied:
+                frappe.msgprint("Your portal access is currently disabled for this engagement.")
             return
 
         engagement = frappe.get_doc("Client Engagement", engagement_name)
