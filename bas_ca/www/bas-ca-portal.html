@@ -9,9 +9,9 @@
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0" rel="stylesheet">
 <style>
 /* ── Reset for full-canvas portal ── */
-.navbar, .navbar-expand-lg, footer, .web-footer, #footer-address { display: none !important; }
+/* .navbar, .navbar-expand-lg, footer, .web-footer, #footer-address { display: none !important; } */
 body { background: #f0f2ff !important; font-family: 'Inter', sans-serif; margin: 0; padding: 0; }
-#page-content, .container { padding: 0 !important; margin: 0 !important; max-width: 100% !important; }
+/* #page-content, .container { padding: 0 !important; margin: 0 !important; max-width: 100% !important; } */
 #body { padding: 0 !important; }
 
 /* ── Variables ── */
@@ -240,6 +240,14 @@ body { background: #f0f2ff !important; font-family: 'Inter', sans-serif; margin:
 {% endblock %}
 
 {% block page_content %}
+<!-- TOP LEVEL DIAGNOSTIC BOX (Visible even if Flex fails) -->
+<div style="background: #eee; border: 2px solid red; padding: 15px; margin: 10px; font-family: monospace; font-size: 14px; position: sticky; top: 0; z-index: 9999;">
+    <strong>🚀 PORTAL DEBUG BOX:</strong> If you see this, Jinja is working.
+    <br>Engagement Found: {{ debug_info.engagement_found | default('ERROR') }} 
+    | Access: {{ debug_info.portal_access_on | default('False') }}
+    | User: {{ frappe.session.user }}
+</div>
+
 <div class="portal-shell">
 
   <!-- ─── SIDEBAR ─── -->

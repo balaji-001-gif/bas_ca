@@ -2,20 +2,15 @@ import frappe
 from frappe.utils import today, getdate
 
 def get_context(context):
-    """
-    Context for the CA Client Portal Dashboard.
-    All data fetching is inline — no api.py import needed.
-    This works without bench restart since www/ .py files are loaded fresh.
-    """
+    # FORCE NO CACHE - AT THE VERY TOP
+    context.no_cache = 1
+    
     user = frappe.session.user
     
-    # 1. Security: Don't allow Guest
-    if user == "Guest":
-        frappe.local.flags.redirect_location = "/login?redirect-to=/bas-ca-portal"
-        raise frappe.Redirect
-    
-    # 2. Add defaults to context
+    # 0. Provide Safe Defaults
     context.update({
+        "client_name": "Client Portal",
+        "engagement_status": "Status Unknown",
         "health_score": 0,
         "pending_tasks_count": 0,
         "overdue_count": 0,
@@ -23,12 +18,18 @@ def get_context(context):
         "total_tasks": 0,
         "next_deadline": "N/A",
         "next_deadline_task": "",
-        "engagement_status": "Active",
         "recent_activity": [],
         "pending_approvals": [],
-        "tasks": []
+        "tasks": [],
+        "debug_info": {"user": user, "engagement_found": False},
+        "access_denied": False
     })
 
+    # 1. Security: Don't allow Guest
+    if user == "Guest":
+        frappe.local.flags.redirect_location = "/login?redirect-to=/bas-ca-portal"
+        raise frappe.Redirect
+    
     try:
         # 3. Find the client's active engagement (mapped to bas_ca)
         engagement = frappe.db.get_value(
@@ -50,7 +51,6 @@ def get_context(context):
                 frappe.msgprint("Note: Showing first active engagement for Administrator testing.")
 
         if not engagement:
-            context.access_denied = False
             context.client_name = "Guest / Unlinked User"
             context.debug_info = {"user": user, "engagement_found": False}
             context.show_sidebar = False
@@ -61,7 +61,7 @@ def get_context(context):
 
         if not portal_access_on:
             context.access_denied = True
-            context.client_name = "Access Pending"
+            context.client_name = engagement.client or "Access Pending"
             context.debug_info = {"user": user, "engagement_found": True, "portal_access_on": False}
             context.show_sidebar = False
             return context
@@ -133,11 +133,10 @@ def get_context(context):
             }
         })
         
-        context.no_cache = 1
-        
     except Exception as e:
         frappe.log_error(f"Portal Context Error: {str(e)}")
         context.error = str(e)
+        context.debug_info["error"] = str(e)
 
     context.show_sidebar = True
     context.no_breadcrumbs = True
