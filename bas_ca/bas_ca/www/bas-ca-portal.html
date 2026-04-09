@@ -180,6 +180,8 @@ body {
 {% block page_content %}
 <div class="portal-wrapper">
   
+  {% set debug_info = debug_info | default({'engagement_found': False, 'portal_access_on': False}) %}
+
   <!-- ─── SIDEBAR (Desktop) ─── -->
   <aside class="sidebar">
     <a href="/bas-ca-portal" class="sidebar-logo">
@@ -258,17 +260,17 @@ body {
         <div class="glass-pane stat-card" style="--accent: var(--warning);">
           <span class="material-symbols-rounded stat-icon">pending_actions</span>
           <div class="stat-label">Pending</div>
-          <div class="stat-value">{{ pending_tasks_count }}</div>
+          <div class="stat-value">{{ pending_tasks_count | default(0) }}</div>
         </div>
         <div class="glass-pane stat-card" style="--accent: var(--danger);">
           <span class="material-symbols-rounded stat-icon">priority_high</span>
           <div class="stat-label">Overdue</div>
-          <div class="stat-value">{{ overdue_count }}</div>
+          <div class="stat-value">{{ overdue_count | default(0) }}</div>
         </div>
         <div class="glass-pane stat-card" style="--accent: var(--primary);">
           <span class="material-symbols-rounded stat-icon">event</span>
           <div class="stat-label">Deadline</div>
-          <div style="font-size: 1.2rem; font-weight: 800;">{{ next_deadline or 'N/A' }}</div>
+          <div style="font-size: 1.2rem; font-weight: 800;">{{ next_deadline | default('N/A') }}</div>
         </div>
       </div>
 
@@ -299,7 +301,7 @@ body {
                   <tr>
                     <td>
                       <div style="font-weight: 600;">{{ t.task_name }}</div>
-                      <div style="font-size: 0.72rem; opacity: 0.5;">CA: {{ t.assigned_to.split('@')[0] if t.assigned_to else 'Assigned' }}</div>
+                      <div style="font-size: 0.72rem; opacity: 0.5;">CA: {{ (t.assigned_to or 'General').split('@')[0] }}</div>
                     </td>
                     <td class="hide-mobile">{{ t.form_number or '--' }}</td>
                     <td>{{ t.due_date or 'N/A' }}</td>
@@ -331,9 +333,9 @@ body {
                 <div class="timeline-item">
                   <div class="timeline-dot"></div>
                   <div class="timeline-content">
-                    <strong>{{ item.comment_by.split('@')[0] if item.comment_by else 'System' }}</strong>
-                    {{ item.content | striptags }}
-                    <span class="timeline-time">{{ frappe.utils.format_datetime(item.creation, "dd MMM") }}</span>
+                    <strong>{{ (item.comment_by or 'System').split('@')[0] }}</strong>
+                    {{ (item.content or 'Update received') | striptags }}
+                    <span class="timeline-time">{{ frappe.utils.format_datetime(item.creation, "dd MMM") if item.creation else 'Recent' }}</span>
                   </div>
                 </div>
                 {% endfor %}
@@ -373,7 +375,7 @@ body {
               </tr>
             </thead>
             <tbody>
-              {% for t in tasks %}
+              {% for t in (tasks | default([])) %}
               <tr>
                 <td><strong>{{ t.task_name }}</strong><br><small>{{ t.form_number or '' }}</small></td>
                 <td>{{ t.compliance_type or 'General' }}</td>
@@ -411,7 +413,7 @@ body {
          <!-- Integrated Diagnostic Section -->
          <div style="background: rgba(0,0,0,0.3); border: 1px solid var(--glass-border); border-radius: 12px; padding: 20px; text-align: left; font-family: monospace; font-size: 0.8rem; margin-top: 40px;">
            <div style="color: var(--primary); font-weight: 700; margin-bottom: 10px;">🛡️ Connection Diagnostics</div>
-           <div>User: {{ user }}</div>
+           <div>User: {{ user | default('Unknown') }}</div>
            <div>Engagement Linked: {{ 'Yes' if debug_info.engagement_found else 'No' }}</div>
            <div>Portal Status: {{ 'Access Granted' if debug_info.portal_access_on else 'Restricted' }}</div>
            <div>Environment: Production (v2.0)</div>
@@ -427,16 +429,12 @@ body {
 function switchPage(pageId) {
   // Update views
   document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
-  document.getElementById(pageId).classList.add('active');
+  const target = document.getElementById(pageId);
+  if(target) target.classList.add('active');
   
   // Update Sidebar
   document.querySelectorAll('.nav-link').forEach(el => el.classList.remove('active'));
   document.querySelectorAll('.mobile-nav-item').forEach(el => el.classList.remove('active'));
-  
-  // Mark as active (matches on partial text or data attribute if we added one)
-  // For simplicity, we just look at the onclicks
-  const trigger = event ? event.currentTarget : null;
-  if(trigger) trigger.classList.add('active');
   
   window.scrollTo({top: 0, behavior: 'smooth'});
 }
@@ -447,7 +445,7 @@ function sendPortalMessage() {
   
   frappe.call({
     method: 'bas_ca.bas_ca.api.post_requirement_update',
-    args: { user: '{{ user }}', text: text },
+    args: { user: '{{ user | default("Unknown") }}', text: text },
     callback: function(r) {
       if(!r.exc) {
         frappe.show_alert({message: 'Message sent successfully', indicator: 'green'});
