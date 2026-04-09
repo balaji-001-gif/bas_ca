@@ -48,10 +48,12 @@ def get_context(context):
                 frappe.msgprint("Note: Showing first active engagement for Administrator testing.")
 
         if not engagement_name:
-            context.client_name = "No Active Engagement"
+            context.client_name = "Guest / Unlinked User"
+            context.engagement_status = "No Active"
             context.show_sidebar = False
             context.no_breadcrumbs = True
             context.title = "Client Command Center"
+            frappe.msgprint("Your account is not yet linked to a Client Engagement. Please contact your CA.")
             return
 
         engagement = frappe.get_doc("Client Engagement", engagement_name)
