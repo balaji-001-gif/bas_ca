@@ -131,6 +131,7 @@ def get_context(context):
     except Exception as e:
         frappe.log_error(f"Portal v2 Controller Error: {str(e)}")
         context.system_error = str(e)
+        context.client_name = "Portal (Error)"
 
-    context.title = f"Command Center - {context.client_name}"
+    context.title = f"Command Center - {context.get('client_name', 'Portal')}"
     return context
