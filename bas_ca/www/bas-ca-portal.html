@@ -405,7 +405,7 @@ body { background: #f0f2ff !important; font-family: 'Inter', sans-serif; margin:
                     {% if task.assigned_to %} · CA: {{ task.assigned_to.split('@')[0] }}{% endif %}
                   </div>
                 </div>
-                <span class="badge {% if task.status == 'Filed' %}badge-success{% elif is_overdue %}badge-danger{% elif task.status == 'In Progress' %}badge-warning{% elif task.status == 'Pending Client Approval' %}badge-info{% else %}badge-neutral{% endif %}">
+                <span class="badge {% if task.status == 'Filed' %}badge-success{% elif is_overdue %}badge-danger{% elif task.status == 'In Progress' %}badge-warning{% elif task.status == 'Review' %}badge-info{% else %}badge-neutral{% endif %}">
                   {% if is_overdue %}Overdue{% else %}{{ task.status }}{% endif %}
                 </span>
               </div>

@@ -41,6 +41,12 @@ def get_context(context):
             "name"
         )
 
+        # Fallback for Administrator testing
+        if not engagement_name and user == "Administrator":
+            engagement_name = frappe.db.get_value("Client Engagement", {"portal_access": 1}, "name")
+            if engagement_name:
+                frappe.msgprint("Note: Showing first active engagement for Administrator testing.")
+
         if not engagement_name:
             context.client_name = "No Active Engagement"
             context.show_sidebar = False
@@ -101,11 +107,11 @@ def get_context(context):
             limit=20
         )
 
-        # Pending Approvals
+        # Pending Approvals - Use 'Review' instead of non-existent 'Pending Client Approval'
         pending_approvals = frappe.get_all(
             "Compliance Task",
             filters={"client_engagement": engagement_name,
-                     "status": "Pending Client Approval"},
+                     "status": "Review"},
             fields=["name", "task_name", "form_number", "due_date", "compliance_type"]
         )
 
