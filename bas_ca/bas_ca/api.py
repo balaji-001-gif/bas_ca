@@ -440,80 +440,41 @@ def post_requirement_update(user, text):
 
 
 @frappe.whitelist()
-def get_portal_full_data(user):
-    """
-    Comprehensive data aggregator for the restructured CA Client Portal.
-    Returns number cards, recent activity, pending approvals, and task list.
-    """
-    engagement_name = frappe.db.get_value(
+def get_portal_full_data():
+    """Aggregated API for portal data refresh."""
+    user = frappe.session.user
+    
+    engagement = frappe.db.get_value(
         "Client Engagement",
-        {"portal_user": user, "portal_access": 1},
-        "name"
+        {"portal_user": user},
+        ["name", "client", "engagement_status", "portal_access"],
+        as_dict=True
     )
 
-    if not engagement_name:
-        return {
-            "client_name": "No Active Engagement",
-            "engagement_name": None,
-            "health_score": 0,
-            "pending_tasks_count": 0,
-            "overdue_count": 0,
-            "filed_count": 0,
-            "next_deadline": "N/A",
-            "next_deadline_task": "",
-            "engagement_status": "Active",
-            "recent_activity": [],
-            "pending_approvals": [],
-            "tasks": []
-        }
+    if not engagement or not engagement.portal_access:
+        return {"access_denied": True}
 
-    engagement = frappe.get_doc("Client Engagement", engagement_name)
-
-    # 1. Pending Tasks
-    pending_tasks = frappe.get_all(
-        "Compliance Task",
-        filters={"client_engagement": engagement_name, "status": ["not in", ["Filed", "Waived"]]},
-        fields=["name", "task_name", "due_date", "status", "compliance_type", "form_number"]
-    )
-
-    # 2. Overdue Tasks
-    overdue_tasks = [t for t in pending_tasks if t.due_date and getdate(t.due_date) < getdate(today())]
-
-    # 3. Filed/Completed
-    filed_count = frappe.db.count("Compliance Task", {"client_engagement": engagement_name, "status": "Filed"})
-    total_tasks = frappe.db.count("Compliance Task", {"client_engagement": engagement_name})
-
-    # 4. Health Score
-    health_score = int((filed_count / total_tasks * 100)) if total_tasks > 0 else 100
-
-    # 5. Next Deadline
-    next_task = frappe.get_all(
-        "Compliance Task",
-        filters={"client_engagement": engagement_name, "status": ["not in", ["Filed", "Waived"]], "due_date": [">=", today()]},
-        fields=["due_date", "task_name"],
-        order_by="due_date asc",
-        limit=1
-    )
-    next_deadline = str(next_task[0].due_date) if next_task else "N/A"
-    next_deadline_task = next_task[0].task_name if next_task else ""
-
-    # Tasks list
-    all_tasks = frappe.get_all(
+    engagement_name = engagement.name
+    
+    # Fetch all tasks
+    tasks = frappe.get_all(
         "Compliance Task",
         filters={"client_engagement": engagement_name},
-        fields=["name", "task_name", "due_date", "status", "compliance_type", "form_number", "assigned_to"],
-        order_by="due_date asc",
-        limit=20
+        fields=["name", "task_name", "status", "due_date", "form_number", "compliance_type", "assigned_to"],
+        order_by="due_date asc"
     )
 
-    # Pending Approvals — tasks marked "Review" (the correct client approval status)
-    pending_approvals = frappe.get_all(
-        "Compliance Task",
-        filters={"client_engagement": engagement_name, "status": "Review"},
-        fields=["name", "task_name", "form_number", "due_date", "compliance_type"]
-    )
-
-    # Recent Activity
+    # Metrics
+    pending_tasks = [t for t in tasks if t.status in ["Pending", "In Progress", "Review"]]
+    overdue_tasks = [
+        t for t in tasks 
+        if t.due_date and getdate(t.due_date) < getdate(today()) 
+        and t.status not in ["Filed", "Waived"]
+    ]
+    filed_tasks = [t for t in tasks if t.status == "Filed"]
+    pending_approvals = [t for t in tasks if t.status == "Review"]
+    
+    # Activity
     try:
         activity = frappe.get_all(
             "Comment",
@@ -525,20 +486,31 @@ def get_portal_full_data(user):
     except Exception:
         activity = []
 
+    # Next Deadline
+    next_deadline = "N/A"
+    next_deadline_task = ""
+    upcoming = [t for t in tasks if t.due_date and t.status not in ["Filed", "Waived"]]
+    if upcoming:
+        upcoming.sort(key=lambda x: getdate(x.due_date))
+        next_deadline = str(upcoming[0].due_date)
+        next_deadline_task = upcoming[0].task_name
+
+    health_score = int((len(filed_tasks) / len(tasks) * 100)) if tasks else 100
+
     return {
         "client_name": engagement.client,
         "engagement_name": engagement_name,
         "health_score": health_score,
         "pending_tasks_count": len(pending_tasks),
         "overdue_count": len(overdue_tasks),
-        "filed_count": filed_count,
-        "total_tasks": total_tasks,
+        "filed_count": len(filed_tasks),
+        "total_tasks": len(tasks),
         "next_deadline": next_deadline,
         "next_deadline_task": next_deadline_task,
         "engagement_status": engagement.engagement_status or "Active",
         "recent_activity": activity,
         "pending_approvals": pending_approvals,
-        "tasks": all_tasks
+        "tasks": tasks
     }
 
 

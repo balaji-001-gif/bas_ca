@@ -360,7 +360,7 @@ body { background: #f0f2ff !important; font-family: 'Inter', sans-serif; margin:
           <span class="material-symbols-rounded">event</span>
         </div>
         <div class="num-card-value" style="font-size:1.1rem; padding-top:4px;">{{ next_deadline | default('N/A') }}</div>
-        <div class="num-card-label">{{ (next_deadline_task | default('')) or 'Next Deadline' }}</div>
+        <div class="num-card-label">Next Deadline</div>
       </div>
     </div>
 
@@ -522,7 +522,7 @@ body { background: #f0f2ff !important; font-family: 'Inter', sans-serif; margin:
 </div>
 
   <!-- Debug Info (Visible to Admin or for Troubleshooting) -->
-  {% if frappe.session.user == 'Administrator' or not tasks %}
+  {% if True or frappe.session.user == 'Administrator' or not tasks %}
   <div style="margin-top: 50px; padding: 20px; border-top: 1px solid #eee; font-family: monospace; font-size: 12px; color: #666; background: #fafafa;">
     <h4 style="margin-top: 0;">🔧 System Diagnostic Info</h4>
     <p><strong>Current User:</strong> {{ debug_info.user if debug_info else frappe.session.user }}</p>
