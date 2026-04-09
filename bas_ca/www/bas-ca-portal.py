@@ -2,15 +2,17 @@ import frappe
 from frappe.utils import today, getdate
 
 def get_context(context):
-    # FORCE NO CACHE - AT THE VERY TOP
+    """
+    Premium CA Portal Controller v2.
+    Streamlined, high-performance data fetching with robust error handling.
+    """
+    # 0. Performance & Security
     context.no_cache = 1
-    
     user = frappe.session.user
     
-    # 0. Provide Safe Defaults
+    # 1. Provide safe base structure
     context.update({
-        "client_name": "Client Portal",
-        "engagement_status": "Status Unknown",
+        "client_name": "Portal",
         "health_score": 0,
         "pending_tasks_count": 0,
         "overdue_count": 0,
@@ -18,127 +20,117 @@ def get_context(context):
         "total_tasks": 0,
         "next_deadline": "N/A",
         "next_deadline_task": "",
+        "engagement_status": "Active",
         "recent_activity": [],
         "pending_approvals": [],
         "tasks": [],
-        "debug_info": {"user": user, "engagement_found": False},
-        "access_denied": False
+        "show_sidebar": True,
+        "access_denied": False,
+        "is_administrator": (user == "Administrator"),
+        "debug_info": {"user": user, "engagement_found": False}
     })
 
-    # 1. Security: Don't allow Guest
+    # Redirect Guests
     if user == "Guest":
         frappe.local.flags.redirect_location = "/login?redirect-to=/bas-ca-portal"
         raise frappe.Redirect
-    
+
     try:
-        # 3. Find the client's active engagement (mapped to bas_ca)
-        engagement = frappe.db.get_value(
+        # 2. Find Engagement
+        engagement_data = frappe.db.get_value(
             "Client Engagement",
-            {"portal_user": user},  # portal_user is the correct field in bas_ca
+            {"portal_user": user},
             ["name", "client", "engagement_status", "portal_access"],
             as_dict=True
         )
         
-        # Administrator fallback for testing
-        if not engagement and user == "Administrator":
-            engagement = frappe.db.get_value(
+        # Admin Fallback
+        if not engagement_data and user == "Administrator":
+            engagement_data = frappe.db.get_value(
                 "Client Engagement",
                 {"portal_access": 1},
                 ["name", "client", "engagement_status", "portal_access"],
                 as_dict=True
             )
-            if engagement:
-                frappe.msgprint("Note: Showing first active engagement for Administrator testing.")
+            if engagement_data:
+                frappe.msgprint("Diagnostic: Showing first active engagement for Administrator.")
 
-        if not engagement:
+        if not engagement_data:
             context.client_name = "Guest / Unlinked User"
-            context.debug_info = {"user": user, "engagement_found": False}
             context.show_sidebar = False
             return context
-        
-        engagement_name = engagement.name
-        portal_access_on = bool(engagement.portal_access)
 
-        if not portal_access_on:
+        # 3. Access Control
+        engagement_name = engagement_data.name
+        context.debug_info.update({
+            "engagement_found": True,
+            "engagement_name": engagement_name,
+            "portal_access": bool(engagement_data.portal_access)
+        })
+
+        if not engagement_data.portal_access:
             context.access_denied = True
-            context.client_name = engagement.client or "Access Pending"
-            context.debug_info = {"user": user, "engagement_found": True, "portal_access_on": False}
+            context.client_name = engagement_data.client or "Access Restricted"
             context.show_sidebar = False
             return context
 
-        # 4. Fetch all compliance tasks for this engagement
-        tasks = frappe.get_all(
+        # 4. Data Aggregation (Single-Pass preferred but get_all is fast)
+        all_tasks = frappe.get_all(
             "Compliance Task",
             filters={"client_engagement": engagement_name},
             fields=["name", "task_name", "status", "due_date", "form_number", "compliance_type", "assigned_to"],
             order_by="due_date asc"
         )
         
-        # 5. Calculate metrics
-        pending_tasks = [t for t in tasks if t.status in ["Pending", "In Progress", "Review"]]
-        overdue_tasks = [
-            t for t in tasks 
-            if t.due_date and getdate(t.due_date) < getdate(today()) 
-            and t.status not in ["Filed", "Waived"]
-        ]
-        filed_tasks = [t for t in tasks if t.status == "Filed"]
+        # Metrics & Lists
+        pending = [t for t in all_tasks if t.status in ["Pending", "In Progress", "Review"]]
+        overdue = [t for t in all_tasks if t.due_date and getdate(t.due_date) < getdate(today()) and t.status not in ["Filed", "Waived"]]
+        filed = [t for t in all_tasks if t.status == "Filed"]
+        approvals = [t for t in all_tasks if t.status == "Review"]
         
-        # Pending approvals (Review status)
-        pending_approvals = [t for t in tasks if t.status == "Review"]
-        
-        # Recent activity (comments on the engagement/tasks)
-        recent_activity = frappe.get_all(
+        # Activity (Comments on the engagement)
+        activity = frappe.get_all(
             "Comment",
-            filters={
-                "reference_doctype": "Client Engagement",
-                "reference_name": engagement_name
-            },
+            filters={"reference_doctype": "Client Engagement", "reference_name": engagement_name},
             fields=["content", "comment_by", "creation"],
-            limit=8,
+            limit=10,
             order_by="creation desc"
         )
         
-        # Next deadline
-        next_deadline = "N/A"
-        next_deadline_task = ""
-        upcoming = [t for t in tasks if t.due_date and t.status not in ["Filed", "Waived"]]
+        # Logic for Next Deadline
+        next_dl = "N/A"
+        next_dl_task = ""
+        upcoming = [t for t in all_tasks if t.due_date and t.status not in ["Filed", "Waived"]]
         if upcoming:
-            upcoming.sort(key=lambda x: getdate(x.due_date))
-            next_deadline = str(upcoming[0].due_date)
-            next_deadline_task = upcoming[0].task_name
+            # Already sorted by due_date asc in SQL query
+            next_dl = upcoming[0].due_date
+            next_dl_task = upcoming[0].task_name
 
-        # Simple health score
-        health_score = int((len(filed_tasks) / len(tasks) * 100)) if tasks else 100
-        
-        # 6. Pass everything to the template
+        # Calculate Health Score
+        score = 100
+        if all_tasks:
+            score = int((len(filed) / len(all_tasks)) * 100)
+
+        # 5. Final Context Update
         context.update({
-            "client_name": engagement.client or "Client",
+            "client_name": engagement_data.client or "Client",
             "engagement_name": engagement_name,
-            "health_score": health_score,
-            "pending_tasks_count": len(pending_tasks),
-            "overdue_count": len(overdue_tasks),
-            "filed_count": len(filed_tasks),
-            "total_tasks": len(tasks),
-            "tasks": tasks,
-            "pending_approvals": pending_approvals,
-            "recent_activity": recent_activity,
-            "next_deadline": next_deadline,
-            "next_deadline_task": next_deadline_task,
-            "engagement_status": engagement.engagement_status or "Active",
-            "debug_info": {
-                "user": user,
-                "engagement_found": True,
-                "portal_access_on": portal_access_on,
-                "roles": frappe.get_roles(user)
-            }
+            "health_score": score,
+            "pending_tasks_count": len(pending),
+            "overdue_count": len(overdue),
+            "filed_count": len(filed),
+            "total_tasks": len(all_tasks),
+            "tasks": all_tasks,
+            "pending_approvals": approvals,
+            "recent_activity": activity,
+            "next_deadline": next_dl,
+            "next_deadline_task": next_dl_task,
+            "engagement_status": engagement_data.engagement_status or "Active"
         })
-        
-    except Exception as e:
-        frappe.log_error(f"Portal Context Error: {str(e)}")
-        context.error = str(e)
-        context.debug_info["error"] = str(e)
 
-    context.show_sidebar = True
-    context.no_breadcrumbs = True
-    context.title = "Client Command Center"
+    except Exception as e:
+        frappe.log_error(f"Portal v2 Controller Error: {str(e)}")
+        context.system_error = str(e)
+
+    context.title = f"Command Center - {context.client_name}"
     return context
