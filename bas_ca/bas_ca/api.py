@@ -551,3 +551,99 @@ def reject_task(task_name, reason=""):
     task.add_comment("Comment", text=f"❌ **Rejected by Client via Portal**\nReason: {reason}")
     task.save(ignore_permissions=True)
     return "Rejected"
+
+
+@frappe.whitelist()
+def setup_demo_data():
+    """
+    Populates the system with high-quality demo data for all core DocTypes.
+    Creates a flagship client, engagements, tasks, trackers, and meetings.
+    """
+    from frappe.utils import add_days, today
+    
+    # 1. Create Demo Client (Customer) if not exists
+    client_name = "Global Infinity Solutions Pvt Ltd"
+    if not frappe.db.exists("Customer", client_name):
+        cust = frappe.new_doc("Customer")
+        cust.customer_name = client_name
+        cust.customer_type = "Company"
+        cust.customer_group = "All Customer Groups"
+        cust.territory = "All Territories"
+        cust.insert(ignore_permissions=True)
+
+    # 2. Create Client Engagement
+    if not frappe.db.exists("Client Engagement", {"client": client_name}):
+        eng = frappe.new_doc("Client Engagement")
+        eng.client = client_name
+        eng.engagement_type = "Both"
+        eng.company_type = "Private Limited"
+        eng.engagement_status = "Active"
+        eng.portal_access = 1
+        eng.pan = "ABCDE1234F"
+        eng.gstin = "27ABCDE1234F1Z5"
+        eng.cin = "U72200MH2026PTC123456"
+        eng.authorised_signatory = "Manoj Kumar"
+        eng.insert(ignore_permissions=True)
+        engagement_id = eng.name
+    else:
+        engagement_id = frappe.db.get_value("Client Engagement", {"client": client_name}, "name")
+
+    # 3. Create Compliance Tasks
+    tasks = [
+        {"name": "GST GSTR-3B - Monthly", "type": "GST", "form": "GSTR-3B", "due": add_days(today(), 5), "status": "Pending"},
+        {"name": "TDS Payment - Q4", "type": "Income Tax", "form": "Challan 281", "due": add_days(today(), -2), "status": "Overdue"},
+        {"name": "ROC Form AOC-4", "type": "ROC", "form": "AOC-4", "due": add_days(today(), 20), "status": "In Progress"},
+        {"name": "Annual Return MGT-7", "type": "ROC", "form": "MGT-7", "due": add_days(today(), 45), "status": "Pending"},
+        {"name": "Professional Tax Filing", "type": "General", "form": "PT-Return", "due": add_days(today(), -10), "status": "Filed"},
+    ]
+
+    for t in tasks:
+        if not frappe.db.exists("Compliance Task", {"task_name": t["name"], "client_engagement": engagement_id}):
+            task = frappe.new_doc("Compliance Task")
+            task.client_engagement = engagement_id
+            task.task_name = t["name"]
+            task.compliance_type = t["type"]
+            task.form_number = t["form"]
+            task.due_date = t["due"]
+            task.status = t["status"]
+            if t["status"] == "Filed":
+                task.filing_date = add_days(t["due"], -2)
+                task.acknowledgement_number = "ACK123456789"
+            task.insert(ignore_permissions=True)
+
+    # 4. Create GST Return Tracker Records
+    if not frappe.db.exists("GST Return Tracker", {"client_engagement": engagement_id}):
+        for month in ["January", "February", "March"]:
+            gst = frappe.new_doc("GST Return Tracker")
+            gst.client_engagement = engagement_id
+            gst.month = month
+            gst.year = "2026"
+            gst.gstr_1_status = "Filed"
+            gst.gstr_3b_status = "Filed"
+            gst.itc_as_per_books = 50000
+            gst.itc_as_per_2b = 48500
+            gst.insert(ignore_permissions=True)
+
+    # 5. Create ROC Filing Records
+    if not frappe.db.exists("ROC Filing", {"client_engagement": engagement_id}):
+        roc = frappe.new_doc("ROC Filing")
+        roc.client_engagement = engagement_id
+        roc.form_type = "AOC-4"
+        roc.financial_year = "2025-26"
+        roc.status = "In Progress"
+        roc.due_date = add_days(today(), 30)
+        roc.insert(ignore_permissions=True)
+
+    # 6. Create Board Meeting
+    if not frappe.db.exists("Board Meeting", {"client_engagement": engagement_id}):
+        bm = frappe.new_doc("Board Meeting")
+        bm.client_engagement = engagement_id
+        bm.meeting_type = "Board Meeting"
+        bm.meeting_date = add_days(today(), 7)
+        bm.meeting_time = "11:00:00"
+        bm.status = "Scheduled"
+        bm.venue = "Conference Room A, Mumbai"
+        bm.insert(ignore_permissions=True)
+
+    frappe.db.commit()
+    return "Demo data created successfully for Global Infinity Solutions!"
