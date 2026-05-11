@@ -468,10 +468,10 @@ def get_portal_full_data():
     if not engagement:
         return {"access_denied": True, "error_type": "no_engagement"}
     
-    if not engagement.portal_access:
-        return {"access_denied": True, "error_type": "restricted", "client_name": engagement.client}
+    if not engagement.get("portal_access"):
+        return {"access_denied": True, "error_type": "restricted", "client_name": engagement.get("client")}
 
-    engagement_name = engagement.name
+    engagement_name = engagement.get("name")
     
     # Fetch all tasks
     tasks = frappe.get_all(
@@ -515,7 +515,7 @@ def get_portal_full_data():
     health_score = int((len(filed_tasks) / len(tasks) * 100)) if tasks else 100
 
     return {
-        "client_name": engagement.client,
+        "client_name": engagement.get("client"),
         "engagement_name": engagement_name,
         "health_score": health_score,
         "pending_tasks_count": len(pending_tasks),
@@ -524,7 +524,7 @@ def get_portal_full_data():
         "total_tasks": len(tasks),
         "next_deadline": next_deadline,
         "next_deadline_task": next_deadline_task,
-        "engagement_status": engagement.engagement_status or "Active",
+        "engagement_status": engagement.get("engagement_status") or "Active",
         "recent_activity": activity,
         "pending_approvals": pending_approvals,
         "tasks": tasks
