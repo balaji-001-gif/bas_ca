@@ -414,17 +414,22 @@ def get_portal_dashboard_data(user):
 
 
 @frappe.whitelist()
-def post_requirement_update(user, text):
+def post_requirement_update(text):
     """
     Handles client 'Requirement Update' submissions from the portal.
     Logs the update as a comment on the Client Engagement Record.
     """
+    user = frappe.session.user
     engagement_name = frappe.db.get_value(
         "Client Engagement", 
         {"portal_user": user, "portal_access": 1}, 
         "name"
     )
     
+    # Admin Fallback for testing
+    if not engagement_name and user == "Administrator":
+        engagement_name = frappe.db.get_value("Client Engagement", {"portal_access": 1}, "name")
+
     if not engagement_name:
         frappe.throw("No active engagement found for this user.")
 
@@ -451,8 +456,20 @@ def get_portal_full_data():
         as_dict=True
     )
 
-    if not engagement or not engagement.portal_access:
-        return {"access_denied": True}
+    # Admin Fallback
+    if not engagement and user == "Administrator":
+        engagement = frappe.db.get_value(
+            "Client Engagement",
+            {"portal_access": 1},
+            ["name", "client", "engagement_status", "portal_access"],
+            as_dict=True
+        )
+
+    if not engagement:
+        return {"access_denied": True, "error_type": "no_engagement"}
+    
+    if not engagement.portal_access:
+        return {"access_denied": True, "error_type": "restricted", "client_name": engagement.client}
 
     engagement_name = engagement.name
     

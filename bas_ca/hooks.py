@@ -118,10 +118,9 @@ has_permission = {
 
 portal_menu_items = [
     {"title": "Dashboard", "route": "/bas-ca-portal", "role": "CA Client", "icon": "fa fa-dashboard"},
-    {"title": "My Engagement", "route": "/client-engagement", "role": "CA Client"},
-    {"title": "Compliance Tasks", "route": "/compliance-tasks", "role": "CA Client"},
-    {"title": "GST Returns", "route": "/gst-returns", "role": "CA Client"},
-    {"title": "ROC Filings", "route": "/roc-filings", "role": "CA Client"},
+    {"title": "Compliance Tasks", "route": "/bas-ca-portal#tasks", "role": "CA Client", "icon": "fa fa-tasks"},
+    {"title": "Recent Activity", "route": "/bas-ca-portal#activity", "role": "CA Client", "icon": "fa fa-history"},
+    {"title": "My Engagement", "route": "/client-engagement", "role": "CA Client", "icon": "fa fa-briefcase"},
 ]
 
 # DocType Class
